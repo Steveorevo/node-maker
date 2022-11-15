@@ -3076,7 +3076,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<style>\n    {{{customcss}}}\n</style>\n<script type=\"text/html\" data-template-name=\"{{node_name}}\">\n    {{{inc_node_name}}}\n    <div id=\"node-props\" style=\"width: {{row_width}}px;\">\n        {{{edit_dialog}}}\n    </div><!--node-props-->\n</script>\n\n<script type=\"text/html\" data-help-name=\"{{node_name}}\">\n    {{{helpdetails}}}\n</script>\n\n<script type=\"text/javascript\">\n    RED.nodes.registerType('{{node_name}}', {\n        category: '{{node_category}}',\n        color: '{{node_color}}',\n        defaults: {\n            name: {value:\"\"},\n            {{{defaults}}}\n        },\n        inputs:1,\n        outputs:1,\n        icon: \"{{{node_icon}}}\",\n        label: function() {\n            return this.name || \"{{node_name}}\";\n        },\n        labelStyle: function() {\n            return this.name ? \"node_label_italic\" : \"\";\n        },\n        oneditprepare: function() {\n            {{{oneditprepare}}}\n        },\n        oneditresize: function() {\n            {{{oneditresize}}}        \n        },\n        oneditsave: function() {\n            {{{oneditsave}}}\n        },\n        oneditcancel: function() {\n            {{{oneditcancel}}}\n        }\n    });\n    {{{othercode}}}\n</script>\n",
+        "template": "<style>\n    {{{customcss}}}\n</style>\n<script type=\"text/html\" data-template-name=\"{{node_name}}\">\n    {{{inc_node_name}}}\n    <div id=\"node-props\" style=\"width: {{row_width}}px;\">\n        {{{edit_dialog}}}\n    </div><!--node-props-->\n</script>\n\n<script type=\"text/html\" data-help-name=\"{{node_name}}\">\n    {{{helpdetails}}}\n</script>\n\n<script type=\"text/javascript\">\n    RED.nodes.registerType('{{node_name}}', {\n        category: '{{node_category}}',\n        color: '{{node_color}}',\n        defaults: {\n            name: {value:\"\"},\n            {{{defaults}}}\n        },\n        inputs: {{numinputs}},\n        outputs: {{numoutputs}},\n        icon: \"font-awesome/fa-{{{node_icon}}}\",\n        label: function() {\n            return this.name || \"{{node_name}}\";\n        },\n        labelStyle: function() {\n            return this.name ? \"node_label_italic\" : \"\";\n        },\n        oneditprepare: function() {\n            {{{oneditprepare}}}\n        },\n        oneditresize: function() {\n            {{{oneditresize}}}        \n        },\n        oneditsave: function() {\n            {{{oneditsave}}}\n        },\n        oneditcancel: function() {\n            {{{oneditcancel}}}\n        }\n    });\n    {{{othercode}}}\n</script>\n",
         "output": "str",
         "x": 360,
         "y": 160,
@@ -3352,7 +3352,7 @@
         "id": "85e13a6e48f6a1c3",
         "type": "subflow",
         "name": "start node",
-        "info": "The start node marks the beginning of a new node defintion. To create a node,\nconnect an inject node to the start node and connect the start node to a \nfinish node. You may wire various other nodes between the start and finish\nnodes to define your node's user interface.\n\nThe following properties can be configured in the properties panel:\n\n* Node Name - choose a JavaScript variable safe name for your node.\n* Version - A valid version string in the form of major, minor, patch i.e. 1.0.0\n* Description - a short description of your node.\n* Category - The palette group the node will appear under; existing i.e. common or you can define your own.\n* Icon - An existing fontawesome name, sans the “fa” prefix. I.e. gears\n* Color - The color of the node as it appears in the palette and editor. I.e. #E2D96E\n* Keywords - Used in the package.json file for reference and indexing by npm.\n* Author Name - The name of the node author. Used in package.json\n* Author Email - The email of the node author. Used in package.json\n* GitHub Handle - The handle used for the GitHub repo URL, I.e. john will appears as https://github.com/john/node-name\n* Max Row Width - The initial width of the property dialog (in pixels) when it is first opened.\n",
+        "info": "The start node marks the beginning of a new node defintion. To create a node,\nconnect an inject node to the start node and connect the start node to a \nfinish node. You may wire various other nodes between the start and finish\nnodes to define your node's user interface.\n\nThe following properties can be configured in the properties panel:\n\n* Node Name - choose a JavaScript variable safe name for your node.\n* Version - A valid version string in the form of major, minor, patch i.e. 1.0.0\n* Description - a short description of your node.\n* Category - The palette group the node will appear under; existing i.e. common or you can define your own.\n* Icon - An existing fontawesome name, sans the 'font-awesome/fa-' prefix; i.e. bathtub\n* Color - The color of the node as it appears in the palette and editor. I.e. #E2D96E\n* Keywords - Used in the package.json file for reference and indexing by npm.\n* Author Name - The name of the node author. Used in package.json\n* Author Email - The email of the node author. Used in package.json\n* GitHub Handle - The handle used for the GitHub repo URL, I.e. john will appears as https://github.com/john/node-name\n* Max Row Width - The initial width of the property dialog (in pixels) when it is first opened.\n* Inputs - Whether the node accepts an input or not; 1 or 0 our the only acceptable values.\n* Outputs - The number of outputs the node will have.\n* Include node name... - Determines if a default name field will appear at the top of the property window; appears above any tab or other input fields.\n",
         "category": "node maker",
         "in": [
             {
@@ -3549,6 +3549,32 @@
                 }
             },
             {
+                "name": "numinputs",
+                "type": "num",
+                "value": "1",
+                "ui": {
+                    "label": {
+                        "en-US": "Inputs"
+                    },
+                    "type": "spinner",
+                    "opts": {
+                        "min": 0,
+                        "max": 1
+                    }
+                }
+            },
+            {
+                "name": "numoutputs",
+                "type": "num",
+                "value": "1",
+                "ui": {
+                    "label": {
+                        "en-US": "Outputs"
+                    },
+                    "type": "spinner"
+                }
+            },
+            {
                 "name": "inc_node_name",
                 "type": "bool",
                 "value": "true",
@@ -3568,7 +3594,7 @@
         "type": "function",
         "z": "85e13a6e48f6a1c3",
         "name": "function 1",
-        "func": "msg.node_name = env.get('node_name');\nmsg.node_version = env.get('node_version');\nmsg.node_description = env.get('node_description');\nmsg.node_folder = env.get('HOME') + '/.node-red/node_modules/node-red-' + msg.node_name + '/';\nlet k = env.get('keywords');\nk = '\"' + k.replaceAll(' ', '').replaceAll(',', '\",\"') + '\"';\nmsg.node_category = env.get('node_category');\nmsg.node_icon = env.get('node_icon');\nmsg.node_color = env.get('node_color');\nmsg.keywords = k;\nmsg.author_name = env.get('author_name');\nmsg.author_email = env.get('author_email');\nmsg.github_handle = env.get('github_handle');\nmsg.package_json = msg.node_folder + 'package.json';\nmsg.gitignore = msg.node_folder + '.gitignore';\nmsg.license = msg.node_folder + 'LICENSE';\nmsg.readme = msg.node_folder + 'README.md';\nmsg.nodename_js = msg.node_folder + msg.node_name + '/' + msg.node_name + '.js';\nmsg.nodename_html = msg.node_folder + msg.node_name + '/' + msg.node_name + '.html';\nmsg.edit_dialog = [];\nmsg._oneditprepare = [];\nmsg._oneditresize = [];\nmsg._oneditsave = [];\nmsg._oneditcancel = [];\nmsg._othercode = {};\nmsg.defaults = [];\nmsg.row_width = env.get('row_width');\nmsg.inc_node_name = env.get('inc_node_name');\nmsg.nodemakerhtml = '';\nmsg.nodemakerjs = '';\nmsg.runtimecode = '';\nif (msg.inc_node_name) {\n    msg.inc_node_name = '    <div class=\"form-row\">' +\"\\n\";\n    msg.inc_node_name += '        <label for=\"node-input-name\"><i class=\"icon-tag\"></i> Name</label>' + \"\\n\";\n    msg.inc_node_name += '        <input type=\"text\" id=\"node-input-name\" placeholder=\"Name\">' + \"\\n\";\n    msg.inc_node_name += \"    </div>\";\n}else{\n    msg.inc_node_name = '';\n}\nreturn msg;",
+        "func": "msg.node_name = env.get('node_name');\nmsg.node_version = env.get('node_version');\nmsg.node_description = env.get('node_description');\nmsg.node_folder = env.get('HOME') + '/.node-red/node_modules/node-red-' + msg.node_name + '/';\nlet k = env.get('keywords');\nk = '\"' + k.replaceAll(' ', '').replaceAll(',', '\",\"') + '\"';\nmsg.node_category = env.get('node_category');\nmsg.node_icon = env.get('node_icon');\nmsg.node_color = env.get('node_color');\nmsg.keywords = k;\nmsg.author_name = env.get('author_name');\nmsg.author_email = env.get('author_email');\nmsg.github_handle = env.get('github_handle');\nmsg.package_json = msg.node_folder + 'package.json';\nmsg.gitignore = msg.node_folder + '.gitignore';\nmsg.license = msg.node_folder + 'LICENSE';\nmsg.readme = msg.node_folder + 'README.md';\nmsg.nodename_js = msg.node_folder + msg.node_name + '/' + msg.node_name + '.js';\nmsg.nodename_html = msg.node_folder + msg.node_name + '/' + msg.node_name + '.html';\nmsg.edit_dialog = [];\nmsg._oneditprepare = [];\nmsg._oneditresize = [];\nmsg._oneditsave = [];\nmsg._oneditcancel = [];\nmsg._othercode = {};\nmsg.defaults = [];\nmsg.row_width = env.get('row_width');\nmsg.numinputs = env.get('numinputs');\nmsg.numoutputs = env.get('numoutputs');\nmsg.inc_node_name = env.get('inc_node_name');\nmsg.nodemakerhtml = '';\nmsg.nodemakerjs = '';\nmsg.runtimecode = '';\nif (msg.inc_node_name) {\n    msg.inc_node_name = '    <div class=\"form-row\">' +\"\\n\";\n    msg.inc_node_name += '        <label for=\"node-input-name\"><i class=\"icon-tag\"></i> Name</label>' + \"\\n\";\n    msg.inc_node_name += '        <input type=\"text\" id=\"node-input-name\" placeholder=\"Name\">' + \"\\n\";\n    msg.inc_node_name += \"    </div>\";\n}else{\n    msg.inc_node_name = '';\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4020,7 +4046,7 @@
             },
             {
                 "name": "node_icon",
-                "value": "font-awesome/fa-globe",
+                "value": "globe",
                 "type": "str"
             },
             {
@@ -4185,7 +4211,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<style>\n    {{{customcss}}}\n</style>\n<script type=\"text/html\" data-template-name=\"{{node_name}}\">\n    {{{inc_node_name}}}\n    <div id=\"node-props\" style=\"width: {{row_width}}px;\">\n        {{{edit_dialog}}}\n    </div><!--node-props-->\n</script>\n\n<script type=\"text/html\" data-help-name=\"{{node_name}}\">\n    {{{helpdetails}}}\n</script>\n\n<script type=\"text/javascript\">\n    RED.nodes.registerType('{{node_name}}', {\n        category: '{{node_category}}',\n        color: '{{node_color}}',\n        defaults: {\n            name: {value:\"\"},\n            {{{defaults}}}\n        },\n        inputs:1,\n        outputs:1,\n        icon: \"{{{node_icon}}}\",\n        label: function() {\n            return this.name || \"{{node_name}}\";\n        },\n        labelStyle: function() {\n            return this.name ? \"node_label_italic\" : \"\";\n        },\n        oneditprepare: function() {\n            {{{oneditprepare}}}\n        },\n        oneditresize: function() {\n            {{{oneditresize}}}        \n        },\n        oneditsave: function() {\n            {{{oneditsave}}}\n        },\n        oneditcancel: function() {\n            {{{oneditcancel}}}\n        }\n    });\n    {{{othercode}}}\n</script>\n",
+        "template": "<style>\n    {{{customcss}}}\n</style>\n<script type=\"text/html\" data-template-name=\"{{node_name}}\">\n    {{{inc_node_name}}}\n    <div id=\"node-props\" style=\"width: {{row_width}}px;\">\n        {{{edit_dialog}}}\n    </div><!--node-props-->\n</script>\n\n<script type=\"text/html\" data-help-name=\"{{node_name}}\">\n    {{{helpdetails}}}\n</script>\n\n<script type=\"text/javascript\">\n    RED.nodes.registerType('{{node_name}}', {\n        category: '{{node_category}}',\n        color: '{{node_color}}',\n        defaults: {\n            name: {value:\"\"},\n            {{{defaults}}}\n        },\n        inputs: {{numinputs}},\n        outputs: {{numoutputs}},\n        icon: \"font-awesome/fa-{{{node_icon}}}\",\n        label: function() {\n            return this.name || \"{{node_name}}\";\n        },\n        labelStyle: function() {\n            return this.name ? \"node_label_italic\" : \"\";\n        },\n        oneditprepare: function() {\n            {{{oneditprepare}}}\n        },\n        oneditresize: function() {\n            {{{oneditresize}}}        \n        },\n        oneditsave: function() {\n            {{{oneditsave}}}\n        },\n        oneditcancel: function() {\n            {{{oneditcancel}}}\n        }\n    });\n    {{{othercode}}}\n</script>\n",
         "output": "str",
         "x": 640,
         "y": 220,
