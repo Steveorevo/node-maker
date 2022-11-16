@@ -26,4 +26,21 @@ Node Maker is distributed as a JSON flow file in the file named node-maker.json.
 ## How to use Node Maker
 TODO: provide initial example explination
 
-
+#### Tips on writing nodes
+* Because you can crash the runtime; use try... catch liberally in your javascript file(s), then you can avoid having to drop to the shell to restart Node-RED. For example:
+```
+module.exports = function(RED) {
+    function {{node_name}}(config) {
+        RED.nodes.createNode(this,config);
+        var node = this;
+        try {
+        
+            // You might do something fatal
+            
+        }catch(e) {
+          node.error(e); // report it within Node-RED's IDE
+        }
+    }
+    RED.nodes.registerType('{{node_name}}', {{node_name}});
+}
+```
