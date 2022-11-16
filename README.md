@@ -9,6 +9,13 @@ TODO: provide contact details
 
 ![screenshot of node-maker](https://raw.github.com/steveorevo/node-maker/main/images/node-maker.jpg)
 
+## Requirements
+* Linux / macOS with native bash shell
+* You may need CLI access to kickoff/troubleshoot the optional node-red restart abiility
+
+Node Maker has currently been tested under Ubuntu Linux; it may work just as well on macOS. It does NOT currently work in Windows; however, a ticket has been opened for that possibility [here (ticket #1)](https://github.com/Steveorevo/node-maker/issues/1).
+
+
 ## How to install Node Maker
 Node Maker is distributed as a JSON flow file in the file named node-maker.json. To add node-maker to your own Node-RED instance, simply obtain the contents of the node-maker.json file and import it into your Node-RED editor:
 
