@@ -38,7 +38,7 @@ Node Maker is distributed as a JSON flow file in the file named node-maker.json.
 2) Paste the JSON flow from the clipboard and optionally select the Import into option button for "new flow", followed by the import button.
 
 ## How to Use Node Maker
-Node Maker is a group of subflow nodes that can be found in the Node-RED editor's palette group **node maker**. Within the palette you'll find two important nodes: 1) start node and 2) finish node. Wire these two nodes together and wire an [inject node](https://nodered.org/docs/user-guide/nodes#inject) to the start node. Double click the start node to fill out the required and optional input fields:
+Node Maker is a group of subflow nodes that can be found in the Node-RED editor's palette group **node maker**. Within the palette you'll find two important nodes: 1) start node and 2) finish node. Wire these two nodes together and wire an [inject node](https://nodered.org/docs/user-guide/nodes#inject) to the start node. Double click the start node to fill out the required and optional input fields (see 'The start node' below). You may then drag and drop (wire inline) additional *UI input nodes* (user interface input nodes) between the start node and finish node; such as the label, field, selectbox, checkbox, spinner, option, textarea, editor, button, button group, or confignode.
 
 ### The start node
 The start node marks the beginning of a new node defintion. To create a node,
@@ -63,9 +63,33 @@ The following properties can be configured in the properties panel:
 * Outputs - The number of outputs the node will have.
 * Include node name... - Determines if a default name field will appear at the top of the property window; appears above any tab or other input fields.
 
-You may then drag and drop (wire inline) additional *UI input nodes* (user interface input nodes) between the start node and finish node; such as the label, field, selectbox, checkbox, spinner, option, textarea, editor, button, button group, or confignode. By default each UI input node will occupy one line in the property panel. One line is typical for most applications and is the only option when designing the property panel using Subflows. However, Node Maker gives you the ability to pack up to four UI input nodes next to each other. This more compact arrangement allows you include more options in your property panel user interface. Use the layout property to visualize how UI input nodes will appear in the property panel:
+### The field node
+The field node represents an instance of the Node-RED [Inputs field](https://nodered.org/docs/creating-nodes/edit-dialog#inputs). A plain input text box can be achieved with the no “Typed” checkbox or type definition specified. The following properties for defining a field are as follows:
 
+* Layout - The number of columns the label will consume out of a division of four or three equal areas. To align controls on the panel on the same row, ensure the used column space totals to consume an entire row.
+* Field Name - A JavaScript compatible variable name (no spaces hyphens or punctuation).
+* Label - The actual text that will be used when displaying the label.
+* Icon - A front awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub
+* Default - the optional default contents of the field.
+* Placeholder - displays a grey value in the input field as a suggested or example value.
+* Required - whether the input field is required and must be filled out. True will invoke a basic validation check to ensure the value is supplied. A missing value will cause the node’s appearance to show an “needs configuration” triangle and subsequent message when the user attempts to deploy the flow. Additionally, a red border will appear around any required fields not filled out.
+* Typed - This section allows the field input to have one or more types to be prefixed to the field area and influences the fields display behavior. See the [Node-RED Inputs field for examples](https://nodered.org/docs/creating-nodes/edit-dialog#inputs).
+* Type Definitions - Allows for defining a custom type using JSON. When the above Typed checkbox “Include additional type definition array” is checked, this property becomes relevant. For example, you can create a custom input option such as “the complete msg object” as used in the [debug node](https://nodered.org/docs/user-guide/nodes#debug).
+* Default Type - This string value determines the default type to be selected for the input field when your node’s property panel is first opened. 
 
+### Using the Layout Property
+By default each UI input node will occupy one line in the property panel. One line is typical for most applications and is the only option when designing the property panel using Subflows. However, Node Maker gives you the ability to pack up to four UI input nodes next to each other. This more compact arrangement allows you include more options in your property panel user interface. Use the layout property to visualize how UI input nodes will appear in the property panel:
+
+One field, full-row             | Two fields, each 1/2-row
+:-------------------------:|:-------------------------:
+![full-row layout](https://raw.github.com/steveorevo/node-maker/main/images/full-row.jpg)  |  ![1/2 row layout](https://raw.github.com/steveorevo/node-maker/main/images/half-row.jpg)
+
+Certain UI input nodes have optional labels and option icons as apart of the node; so you don't have to use a separate label UI node. For these types of nodes, the label will appear full size when the layout option is set to **full-row**. 
+
+In the second example, we've created two fields (Test1 and Test2) and set both their Layout properties to **1/2 row** to occupy just one line in the property panel. A smaller label is used for these types of UI input nodes when the layout property is less than a full-row.
+
+### Preparing Your Node Files
+TODO: explain the inject node -> start node, where the output files are placed, and what happens in the finish node to restart the node-red instance...
 
 #### Tips on writing nodes
 * Because you can crash the runtime; use try... catch liberally in your javascript file(s), then you can avoid having to drop to the shell to restart Node-RED. For example:
