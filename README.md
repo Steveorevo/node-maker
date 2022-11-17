@@ -24,13 +24,13 @@ Now with Node Maker you can create rich property panel combinations without even
 Node Maker is currently being developed under Ubuntu Linux; it may work just as well on macOS. It does NOT currently work on Windows; however, a ticket has been opened for that possibility [here (ticket #1)](https://github.com/Steveorevo/node-maker/issues/1).
 
 ## How to Install Node Maker
-Node Maker is distributed as a JSON flow file in the file named node-maker.json. To add node-maker to your own Node-RED instance, simply obtain the contents of the node-maker.json file and import it into your Node-RED editor:
+Node Maker is distributed as a JSON flow file named node-maker.json. To add node-maker to your own Node-RED instance, simply obtain the contents of the node-maker.json file and import it into your Node-RED editor:
 
 #### Via [GitHub](https://github.com/steveorevo/node-maker)
 1) View the [raw file by clicking here](https://raw.github.com/steveorevo/node-maker/main/node-maker.json), select all of its content and copy it to the clipboard.
 
 #### Via [Node-RED's flows library](https://flows.nodered.org/flow/TDB)
-1) View the Node-RED's flows library entry for the [Node Maker page by clicking here](https://flows.nodered.org/flow/TBD)
+1) View the Node-RED's flows library entry for the [Node Maker page by clicking here](https://flows.nodered.org/flow/TBD).
 2) Use the copy button or select all of the JSON and copy it to the clipboard.
 
 ### Use Node-RED's Import command
