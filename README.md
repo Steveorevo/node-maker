@@ -84,7 +84,7 @@ The field node represents an instance of the Node-RED [Inputs field](https://nod
 * Layout - The number of columns the label will consume out of a division of four or three equal areas. To align controls on the panel on the same row, ensure the used column space totals to consume an entire row.
 * Field Name - A JavaScript compatible variable name (no spaces hyphens or punctuation).
 * Label - The actual text that will be used when displaying the label.
-* Icon - A front awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub
+* Icon - A font awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub
 * Default - the optional default contents of the field.
 * Placeholder - displays a grey value in the input field as a suggested or example value.
 * Required - whether the input field is required and must be filled out. True will invoke a basic validation check to ensure the value is supplied. A missing value will cause the node’s appearance to show an “needs configuration” triangle and subsequent message when the user attempts to deploy the flow. Additionally, a red border will appear around any required fields not filled out.
@@ -108,7 +108,7 @@ The tab node allows you to group your input fields and other controls in your no
 
 * Tab Name - A JavaScript compatible variable name (no spaces hyphens or punctuation).
 * Label - The actual text that will be used when displaying the label.
-* Icon - A front awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub
+* Icon - A font awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub
 
 ![screenshot of tab-node](https://raw.github.com/steveorevo/node-maker/main/images/tab-node.jpg)
 
