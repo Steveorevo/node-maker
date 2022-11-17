@@ -1,22 +1,27 @@
 # node-maker
-A set of sub flows that can be used to quickly create a new Node-RED node, its property panels, and initial behavior. You can use Node Maker to easily create an initial template or the entire work necessary for creating a Node-RED node. 
-
-#### The motivation behind Node-Maker
-Time and time again I've found that I need to create nodes with a customizable property panel. While Node-RED's fantastic editor includes the ability to make nodes and package them via it's [subflow functionality](https://nodered.org/docs/creating-nodes/subflow-modules#creating-a-subflow) it falls short in the key area of designing a property user interface and often pushes users into [creating nodes](https://nodered.org/docs/creating-nodes/) from scratch: 
-
-* 
-
-#### Support the creator
-TODO: provide contact details
+A set of subflow nodes that can be used to quickly create a new Node-RED node, its property panels, and initial behavior. You can use Node Maker to easily create an initial template or the entire work necessary for creating a Node-RED node. 
 
 ![screenshot of node-maker](https://raw.github.com/steveorevo/node-maker/main/images/node-maker.jpg)
 
+## Why Node-Maker?
+Time and time again I've found that I need to create nodes with a rich property panel user interface. While Node-RED's fantastic editor includes the ability to make nodes and package them via it's [subflow functionality](https://nodered.org/docs/creating-nodes/subflow-modules#creating-a-subflow) it falls short in the key area of designing a rich user interface. Often this pushes users into [creating nodes](https://nodered.org/docs/creating-nodes/) from scratch that can furnish full control over the property UI:
+
+* Place multiple input fields and types next to each other.
+* Implement custom controls; i.e. option boxes, selectboxes with multiselect, etc.
+* Create groups of repeating input fields aka "editableLists".
+* Design a tabbed interface to pack more 'pages' of input fields.
+* Customize the initial size of property panel.
+
+Now with Node Maker you can create rich property panel combinations without even having to *leave the Node-RED Editor interface!
+
+<sub>* technically you'll have to refresh the webpage to see newly created nodes in the palette</sub>
+
 ## Requirements
+* You should be familiar with [Creating Nodes using Node-RED's documentation.](https://nodered.org/docs/creating-nodes/)
 * Linux / macOS with native bash shell
 * You may need CLI access to kickoff/troubleshoot the optional node-red restart abiility
 
 Node Maker has currently been tested under Ubuntu Linux; it may work just as well on macOS. It does NOT currently work in Windows; however, a ticket has been opened for that possibility [here (ticket #1)](https://github.com/Steveorevo/node-maker/issues/1).
-
 
 ## How to install Node Maker
 Node Maker is distributed as a JSON flow file in the file named node-maker.json. To add node-maker to your own Node-RED instance, simply obtain the contents of the node-maker.json file and import it into your Node-RED editor:
@@ -53,3 +58,7 @@ module.exports = function(RED) {
     RED.nodes.registerType('{{node_name}}', {{node_name}});
 }
 ```
+
+
+#### Support the creator
+TODO: provide contact details
