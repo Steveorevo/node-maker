@@ -3,14 +3,14 @@ A set of subflow nodes that can be used to quickly create a new Node-RED node, t
 
 ![screenshot of node-maker](https://raw.github.com/steveorevo/node-maker/main/images/node-maker.jpg)
 
-## Why Node-Maker?
+## Why Node Maker?
 Time and time again I've found that I need to create nodes with a rich property panel user interface. While Node-RED's fantastic editor includes the ability to make nodes and package them via it's [subflow functionality](https://nodered.org/docs/creating-nodes/subflow-modules#creating-a-subflow) it falls short in the key area of designing a rich user interface. Often this pushes users into [creating nodes](https://nodered.org/docs/creating-nodes/) from scratch that can furnish full control over the property UI:
 
 * Place multiple input fields and types next to each other.
 * Implement custom controls; i.e. option boxes, selectboxes with multiselect, etc.
 * Create groups of repeating input fields aka "editableLists".
 * Design a tabbed interface to pack more 'pages' of input fields.
-* Customize the initial size of property panel.
+* Customize the initial size of the property panel.
 
 Now with Node Maker you can create rich property panel combinations without even having to *leave the Node-RED Editor interface!
 
