@@ -23,7 +23,7 @@ Now with Node Maker you can create rich property panel combinations without even
 
 Node Maker has currently been tested under Ubuntu Linux; it may work just as well on macOS. It does NOT currently work in Windows; however, a ticket has been opened for that possibility [here (ticket #1)](https://github.com/Steveorevo/node-maker/issues/1).
 
-## How to install Node Maker
+## How to Install Node Maker
 Node Maker is distributed as a JSON flow file in the file named node-maker.json. To add node-maker to your own Node-RED instance, simply obtain the contents of the node-maker.json file and import it into your Node-RED editor:
 
 #### Via [GitHub](https://github.com/steveorevo/node-maker)
@@ -37,10 +37,10 @@ Node Maker is distributed as a JSON flow file in the file named node-maker.json.
 1) Use Node-RED editor's hamburger menu in the upper right corner to select the "Import" menu option.
 2) Paste the JSON flow from the clipboard and optionally select the Import into option button for "new flow", followed by the import button.
 
-## How to use Node Maker
+## How to Use Node Maker
 Node Maker is a group of subflow nodes that can be found in the Node-RED editor's palette group **node maker**. Within the palette you'll find two important nodes: 1) start node and 2) finish node. Wire these two nodes together and wire an [inject node](https://nodered.org/docs/user-guide/nodes#inject) to the start node. Double click the start node to fill out the required and optional input fields:
 
-### start node
+### The start node
 The start node marks the beginning of a new node defintion. To create a node,
 connect an inject node to the start node and connect the start node to a 
 finish node. You may wire various other nodes between the start and finish
@@ -63,7 +63,9 @@ The following properties can be configured in the properties panel:
 * Outputs - The number of outputs the node will have.
 * Include node name... - Determines if a default name field will appear at the top of the property window; appears above any tab or other input fields.
 
-You may then drag and drop (wire inline) additional *UI input nodes* (user interface input nodes) between the start node and finish node; such as the label, field, selectbox, checkbox, spinner, option, textarea, editor, button, button group, or confignode. By default each UI input node will fill one line in the property panel. One line is typical for most applications and is the only option when designing the property panel using Subflows. However, Node Maker gives you the ability to pack up to four UI input nodes next to each other. This more compact arrangement allows you include more options in your property panel user interface.
+You may then drag and drop (wire inline) additional *UI input nodes* (user interface input nodes) between the start node and finish node; such as the label, field, selectbox, checkbox, spinner, option, textarea, editor, button, button group, or confignode. By default each UI input node will occupy one line in the property panel. One line is typical for most applications and is the only option when designing the property panel using Subflows. However, Node Maker gives you the ability to pack up to four UI input nodes next to each other. This more compact arrangement allows you include more options in your property panel user interface. Use the layout property to visualize how UI input nodes will appear in the property panel:
+
+
 
 #### Tips on writing nodes
 * Because you can crash the runtime; use try... catch liberally in your javascript file(s), then you can avoid having to drop to the shell to restart Node-RED. For example:
