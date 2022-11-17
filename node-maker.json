@@ -602,7 +602,7 @@
         "id": "973db1310fdebc19",
         "type": "subflow",
         "name": "start rgroup",
-        "info": "",
+        "info": "Use the start rgroup node to define a repeatable set of properties; also known as an “editableList” in Node-RED’s API. An example of Node-RED’s editable list is used in the property panel for the [switch and change nodes](https://nodered.org/docs/user-guide/nodes#change). Using the start rgroup and end rgroup nodes makes designing repeatable lists easy. \n\nSimply place the following compatible controls between the start/end rgroup nodes:\n\n* label\n* field\n* selectbox\n* checkbox\n\nThe start rgroup node has the following properties:\n\n* Group Name - A JavaScript compatible variable name (no spaces hyphens or punctuation).\n* Label - The actual text that will be used when displaying the label.\n* Icon - A font awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub\n* Sortable - Determines if the contents of the editable list can be sorted.\n* Height - Determines the height of the listbox that contains the repeating group of fields.\n",
         "category": "node maker",
         "in": [
             {
@@ -2400,7 +2400,7 @@
         "id": "b30b4cf6837f20a7",
         "type": "subflow",
         "name": "selectbox",
-        "info": "Node Maker Docs\nThe selectbox node represents the use of Node-RED’s TypedInput and Typed Input Multiple Selectbox. For an example, see the bottom of the page for [Node-RED Inputs field for examples](https://nodered.org/docs/creating-nodes/edit-dialog#inputs). The following properties define the select box’s appearance:\n\n* Layout - The number of columns the label will consume out of a division of four or three equal areas. To align controls on the panel on the same row, ensure the used column space totals to consume an entire row.\n* Field Name - A JavaScript compatible variable name (no spaces hyphens or punctuation).\n* Label - The actual text that will be used when displaying the label.\n* Icon - A front awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub\n* Values - The values of the selectbox are represented as a comma delimited string of captions:value (a caption separated by a colon and value). The captions will appear in the selectbox as a dropdown combobox. \n* Default - The default value or default selection (comma delimited if multiple is enabled) for the selectbox.\n* Allow Multiple - true to allow more than one value to be selected or false for only a single value. \n",
+        "info": "Node Maker Docs\nThe selectbox node represents the use of Node-RED’s TypedInput and Typed Input Multiple Selectbox. For an example, see the bottom of the page for [Node-RED Inputs field for examples](https://nodered.org/docs/creating-nodes/edit-dialog#inputs). The following properties define the select box’s appearance:\n\n* Layout - The number of columns the label will consume out of a division of four or three equal areas. To align controls on the panel on the same row, ensure the used column space totals to consume an entire row.\n* Field Name - A JavaScript compatible variable name (no spaces hyphens or punctuation).\n* Label - The actual text that will be used when displaying the label.\n* Icon - A font awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub\n* Values - The values of the selectbox are represented as a comma delimited string of captions:value (a caption separated by a colon and value). The captions will appear in the selectbox as a dropdown combobox. \n* Default - The default value or default selection (comma delimited if multiple is enabled) for the selectbox.\n* Allow Multiple - true to allow more than one value to be selected or false for only a single value. \n",
         "category": "node maker",
         "in": [
             {
@@ -4184,8 +4184,7 @@
         "y": 520,
         "wires": [
             []
-        ],
-        "info": "Use the start rgroup node to define a repeatable set of properties; also known as an “editableList” in Node-RED’s API. An example of Node-RED’s editable list is used in the property panel for the [switch and change nodes](https://nodered.org/docs/user-guide/nodes#change). Using the start rgroup and end rgroup nodes makes designing repeatable lists easy. \n\nSimply place the following compatible controls between the start/end rgroup nodes:\n\n* label\n* field\n* selectbox\n* checkbox\n\nThe start rgroup node has the following properties:\n\n* Group Name - A JavaScript compatible variable name (no spaces hyphens or punctuation).\n* Label - The actual text that will be used when displaying the label.\n* Icon - A front awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub\n* Sortable - Determines if the contents of the editable list can be sorted.\n* Height - Determines the height of the listbox that contains the repeating group of fields.\n"
+        ]
     },
     {
         "id": "2919c812e437c739",
