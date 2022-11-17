@@ -19,7 +19,7 @@ Now with Node Maker you can create rich property panel combinations without even
 ## Requirements
 * You should be familiar with [Creating Nodes using Node-RED's documentation.](https://nodered.org/docs/creating-nodes/)
 * Linux / macOS with native bash shell.
-* You may need CLI access to kickoff/troubleshoot the optional node-red restart abiility.
+* You may need CLI access to kickoff/troubleshoot the [optional autorestarting of Node-RED](https://github.com/Steveorevo/node-maker/edit/main/README.md#to-start-the-node-red-instance-and-allow-auto-restarting-of-node-red).
 
 Node Maker is currently being developed under Ubuntu Linux; it may work just as well on macOS. It does NOT currently work on Windows; however, a ticket has been opened for that possibility [here (ticket #1)](https://github.com/Steveorevo/node-maker/issues/1).
 
@@ -37,8 +37,10 @@ Node Maker is distributed as a JSON flow file named node-maker.json. To add node
 1) Use Node-RED editor's hamburger menu in the upper right corner to select the "Import" menu option.
 2) Paste the JSON flow from the clipboard and optionally select the Import into option button for "new flow", followed by the import button.
 
+To complete installtion; stop your Node-RED instance and restart it while recording the PID to the temp folder to allow automatic Node-RED restart ability. See the section on [autorestarting of Node-RED](https://github.com/Steveorevo/node-maker/edit/main/README.md#to-start-the-node-red-instance-and-allow-auto-restarting-of-node-red).
+
 ## How to Use Node Maker
-Node Maker is a group of subflow nodes that can be found in the Node-RED editor's palette group titled **node maker**. Within the palette you'll find two important nodes: 1) start node and 2) finish node. Wire these two nodes together and wire an [inject node](https://nodered.org/docs/user-guide/nodes#inject) to the start node. Double click the start node to fill out the required and optional input fields (see 'The start node' below). You may then drag and drop (wire inline) additional *UI input nodes* (user interface input nodes) between the start node and finish node; such as the label, field, selectbox, checkbox, spinner, option, textarea, editor, button, button group, or confignode.
+Node Maker is a group of subflow nodes that can be found in the Node-RED editor's palette group titled **node maker**. Within the palette you'll find two important nodes: 1) start node and 2) finish node. Wire these two nodes together and wire an [inject node](https://nodered.org/docs/user-guide/nodes#inject) to the start node. Double click the start node to fill out the required and optional input fields (see 'The start node' below). You may then drag and drop (wire inline) additional *UI input nodes* (user interface input nodes) between the start node and finish node; such as the label, field, selectbox, checkbox, spinner, option, textarea, editor, button, button group, or confignode. You can learn more about each node using [Node-RED's sidebar help tab](https://nodered.org/docs/user-guide/editor/sidebar/help).
 
 ### The start node
 The start node marks the beginning of a new node defintion. To create a node,
@@ -88,8 +90,52 @@ Certain UI input nodes have optional labels and option icons as apart of the nod
 
 In the second example, we've created two fields (Test1 and Test2) and set both their Layout properties to **1/2 row** to occupy just one line in the property panel. A smaller label is used for these types of UI input nodes when the layout property is less than a full-row.
 
+### The tab node
+The tab node allows you to group your input fields and other controls in your node’s property panel under tabs. An example of tabs can be seen in the Node-RED's native function node. Simply wire a tab node between the start and finish nodes and before the UI nodes you wish to have appear under a tab. The tab node uses the following properties to determine its appearance: 
+
+* Tab Name - A JavaScript compatible variable name (no spaces hyphens or punctuation).
+* Label - The actual text that will be used when displaying the label.
+* Icon - A front awesome icon that will appear to the left of the label. You can specify the icon name sans any ‘fa’ prefix; i.e. bathtub
+
+![screenshot of tab-node](https://raw.github.com/steveorevo/node-maker/main/images/tab-node.jpg)
+
+### The start rgroup and stop rgroup nodes
+Node Maker allows you to create repeatable groups of UI input nodes; or as Node-RED's API calls them: `editableList`. Creating the list is easy; simply place the UI input nodes between the start rgroup and stop regroup nodes. See the image below for an example. Currently, only the following nodes are supported within a repeatable group:
+
+* Label
+* Field
+* Selectbox
+* Checkbox
+* Spinner
+
+![screenshot of tab-node](https://raw.github.com/steveorevo/node-maker/main/images/repeat-group.jpg)
+
 ### Preparing Your Node Files
-TODO: explain the inject node -> start node, where the output files are placed, and what happens in the finish node to restart the node-red instance...
+You can include the pre-built template nodes that come with the Node Maker flow file; they are titled:
+
+* nodemakerhtml - A template for your node's HTML file, see [Creating Nodes - HTML File documentation](https://nodered.org/docs/creating-nodes/node-html).
+* nodemakerjs - A template for your node's JavaScript file, see [Creating Nodes - JavaScript File documentation](https://nodered.org/docs/creating-nodes/node-js).
+* runtimecode - An optional runtimecode template that can be used in lieu of nodemakerjs, to quickly implement the msg handler for your node.
+
+You can optionally copy the template nodes that you find above and wire them into your flow before the finish node to implement your node's custom behavior and functionality. If you omit them, Node Maker will use a default version of the template internally. Each of the templates cast to the msg object's properties of the same name (`msg.nodemakerhtml`, `msg.nodemakerjs`, and `runtimecode` respectively). Within each file, you will find various [mustache syntax](https://mustache.github.io/mustache.5.html) elements. These mustache elements are used to inject Node Maker's generated code and should be preserved. 
+
+Lastly, Node Maker will write the files for your node into a folder within your node_modules folder of your running Node-RED instance. By default on Linux based operating systems the location would be:
+
+`$HOME/.node-red/node_modules/node-red-example`
+
+Where by example in `node-red-example` is the name of your node as specified in the start node's property panel.
+
+#### Auto-restarting Node-RED
+On compatible Linux operating systems, the finish node will write all the necessary files and then restart the Node-RED server. This behavior allows you to easily design your Node's UI and edit its code from within the Node-RED editor; simply invoke the inject node to activate the start node followed by refreshing your browser's webpage. You may need to wait a couple of seconds for services to restart before refreshing your browser and seeing your generated node appear in the left hand palette. 
+
+To accomplish this, Node Maker will need to kill the current Node-RED running instance; via a PID file in your temp folder (i.e. /tmp/node-red.pid) and then restart Node-RED and record the new PID to the temp folder. ***This requires that you initially start Node-RED with the PID recording command***.
+
+#### To Start the Node-RED Instance and Allow Auto-restarting of Node-RED
+You will need to initially start Node-RED with the following command (it is the same command that the finish node executes to restart Node-RED after generating your node files):
+
+```
+kill -9 `cat /tmp/node-red.pid`; nohup nice node-red > /dev/null 2>&1 & echo $! > /tmp/node-red.pid
+```
 
 #### Tips on writing nodes
 * Because you can crash the runtime; use try... catch liberally in your javascript file(s), then you can avoid having to drop to the shell to restart Node-RED. For example:
