@@ -72,7 +72,7 @@ The following properties can be configured in the properties panel:
 * Keywords - Used in the package.json file for reference and indexing by npm.
 * Author Name - The name of the node author. Used in package.json
 * Author Email - The email of the node author. Used in package.json
-* GitHub Handle - The handle used for the GitHub repo URL, I.e. john will appears as https://github.com/john/node-name
+* GitHub Handle - The handle used for the GitHub repo URL, I.e. john will appear as https://github.com/john/node-name
 * Max Row Width - The initial width of the property dialog (in pixels) when it is first opened.
 * Inputs - Whether the node accepts an input or not; 1 or 0 our the only acceptable values.
 * Outputs - The number of outputs the node will have.
