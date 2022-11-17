@@ -2,7 +2,9 @@
 A set of sub flows that can be used to quickly create a new Node-RED node, its property panels, and initial behavior. You can use Node Maker to easily create an initial template or the entire work necessary for creating a Node-RED node. 
 
 #### The motivation behind Node-Maker
-TODO: describe initial reason, ...
+Time and time again I've found that I need to create nodes with a customizable property panel. While Node-RED's fantastic editor includes the ability to make nodes and package them via it's [subflow functionality](https://nodered.org/docs/creating-nodes/subflow-modules#creating-a-subflow) it falls short in the key area of designing a property user interface and often pushes users into [creating nodes](https://nodered.org/docs/creating-nodes/) from scratch: 
+
+* 
 
 #### Support the creator
 TODO: provide contact details
