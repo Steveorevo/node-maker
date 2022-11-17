@@ -3,19 +3,6 @@ A set of subflow nodes that can be used to quickly create a new Node-RED node, t
 
 ![screenshot of node-maker](https://raw.github.com/steveorevo/node-maker/main/images/node-maker.jpg)
 
-<div align = center>
-         
-
-[<kbd> <br> Donate to this Project <br> </kbd>][KBD]
-
-
-</div>
-
-
-<!---------------------------------------------------------------------------->
-
-[KBD]: https://www.paypal.com/pools/c/8P4HVTZiH2
-
 ## Why Node-Maker?
 Time and time again I've found that I need to create nodes with a rich property panel user interface. While Node-RED's fantastic editor includes the ability to make nodes and package them via it's [subflow functionality](https://nodered.org/docs/creating-nodes/subflow-modules#creating-a-subflow) it falls short in the key area of designing a rich user interface. Often this pushes users into [creating nodes](https://nodered.org/docs/creating-nodes/) from scratch that can furnish full control over the property UI:
 
@@ -28,6 +15,19 @@ Time and time again I've found that I need to create nodes with a rich property 
 Now with Node Maker you can create rich property panel combinations without even having to *leave the Node-RED Editor interface!
 
 <sub>* technically you'll have to refresh the webpage to see newly created nodes in the palette</sub>
+
+<div>
+         
+
+[<kbd> <br> Donate to this Project <br> </kbd>][KBD]
+
+
+</div>
+
+
+<!---------------------------------------------------------------------------->
+
+[KBD]: https://www.paypal.com/pools/c/8P4HVTZiH2
 
 ## Requirements
 * You should be familiar with [Creating Nodes using Node-RED's documentation.](https://nodered.org/docs/creating-nodes/)
@@ -172,7 +172,17 @@ module.exports = function(RED) {
 
 #### Support the creator
 You can help Steveorevo's open source development endeavors by donating any amount. Your donation, no matter how large or small helps pay for his time and resources to create MIT and GPL licensed projects that you and the world can benefit from. Click the image below to donate today :)
+<div>
+         
 
-[![Click here to donate](https://pics.paypal.com/00/p/YTIzMjQxNTUtNTNjYS00ZmVjLWE0YTEtNTQxOWQyOTlkYjNi/image_57.PNG)](https://www.paypal.com/pools/c/8P4HVTZiH2)
+[<kbd> <br> Donate to this Project <br> </kbd>][KBD]
+
+
+</div>
+
+
+<!---------------------------------------------------------------------------->
+
+[KBD]: https://www.paypal.com/pools/c/8P4HVTZiH2
 
 https://www.paypal.com/pools/c/8P4HVTZiH2
