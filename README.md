@@ -1,5 +1,5 @@
 # node-maker
-A set of subflow nodes that can be used to quickly create a new Node-RED node, its property panels, and initial behavior. You can use Node Maker to easily create an initial template or the entire work necessary for creating a Node-RED node. 
+A set of subflow nodes that can be used to quickly create a new Node-RED node, the property panel, and the node's behavior. You can use Node Maker to easily create an initial template or the entire work necessary for creating a Node-RED node. 
 
 ![screenshot of node-maker](https://raw.github.com/steveorevo/node-maker/main/images/node-maker.jpg)
 
@@ -21,7 +21,7 @@ Now with Node Maker you can create rich property panel combinations without even
 * Linux / macOS with native bash shell
 * You may need CLI access to kickoff/troubleshoot the optional node-red restart abiility
 
-Node Maker has currently been tested under Ubuntu Linux; it may work just as well on macOS. It does NOT currently work in Windows; however, a ticket has been opened for that possibility [here (ticket #1)](https://github.com/Steveorevo/node-maker/issues/1).
+Node Maker is currently being developed under Ubuntu Linux; it may work just as well on macOS. It does NOT currently work on Windows; however, a ticket has been opened for that possibility [here (ticket #1)](https://github.com/Steveorevo/node-maker/issues/1).
 
 ## How to Install Node Maker
 Node Maker is distributed as a JSON flow file in the file named node-maker.json. To add node-maker to your own Node-RED instance, simply obtain the contents of the node-maker.json file and import it into your Node-RED editor:
