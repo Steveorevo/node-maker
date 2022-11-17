@@ -32,7 +32,7 @@ Now with Node Maker you can create rich property panel combinations without even
 ## Requirements
 * You should be familiar with [Creating Nodes using Node-RED's documentation.](https://nodered.org/docs/creating-nodes/)
 * Linux / macOS with native bash shell.
-* You may need CLI access to kickoff/troubleshoot the [optional autorestarting of Node-RED](https://github.com/Steveorevo/node-maker/edit/main/README.md#to-start-the-node-red-instance-and-allow-auto-restarting-of-node-red).
+* You may need CLI access to kickoff/troubleshoot the [optional autorestarting of Node-RED](https://github.com/Steveorevo/node-maker/blob/main/README.md#auto-restarting-node-red).
 
 Node Maker is currently being developed under Ubuntu Linux; it may work just as well on macOS. It does NOT currently work on Windows; however, a ticket has been opened for that possibility [here (ticket #1)](https://github.com/Steveorevo/node-maker/issues/1).
 
