@@ -100,7 +100,7 @@ The tab node allows you to group your input fields and other controls in your no
 ![screenshot of tab-node](https://raw.github.com/steveorevo/node-maker/main/images/tab-node.jpg)
 
 ### The start rgroup and stop rgroup nodes
-Node Maker allows you to create repeatable groups of UI input nodes; or as Node-RED's API calls them: `editableList`. Creating the list is easy; simply place the UI input nodes between the start rgroup and stop regroup nodes. See the image below for an example. Currently, only the following nodes are supported within a repeatable group:
+Node Maker allows you to create repeatable groups of UI input nodes; or as Node-RED's API calls them: `editableList`. Creating the list is easy; simply place the UI input nodes between the start rgroup and stop rgroup nodes. See the image below for an example. Currently, only the following nodes are supported within a repeatable group:
 
 * Label
 * Field
