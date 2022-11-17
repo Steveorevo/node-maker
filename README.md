@@ -42,8 +42,8 @@ Node Maker is distributed as a JSON flow file named node-maker.json. To add node
 #### Via [GitHub](https://github.com/steveorevo/node-maker)
 1) View the [raw file by clicking here](https://raw.github.com/steveorevo/node-maker/main/node-maker.json), select all of its content and copy it to the clipboard.
 
-#### Via [Node-RED's flows library](https://flows.nodered.org/flow/TDB)
-1) View the Node-RED's flows library entry for the [Node Maker page by clicking here](https://flows.nodered.org/flow/TBD).
+#### Via [Node-RED's flows library](https://flows.nodered.org/flow/b767ff2a5263af1abea8e05a88f99b60)
+1) View the Node-RED's flows library entry for the [Node Maker page by clicking here](https://flows.nodered.org/flow/b767ff2a5263af1abea8e05a88f99b60).
 2) Use the copy button or select all of the JSON and copy it to the clipboard.
 
 ### Use Node-RED's Import command
