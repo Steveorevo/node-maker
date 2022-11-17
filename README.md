@@ -18,8 +18,8 @@ Now with Node Maker you can create rich property panel combinations without even
 
 ## Requirements
 * You should be familiar with [Creating Nodes using Node-RED's documentation.](https://nodered.org/docs/creating-nodes/)
-* Linux / macOS with native bash shell
-* You may need CLI access to kickoff/troubleshoot the optional node-red restart abiility
+* Linux / macOS with native bash shell.
+* You may need CLI access to kickoff/troubleshoot the optional node-red restart abiility.
 
 Node Maker is currently being developed under Ubuntu Linux; it may work just as well on macOS. It does NOT currently work on Windows; however, a ticket has been opened for that possibility [here (ticket #1)](https://github.com/Steveorevo/node-maker/issues/1).
 
@@ -38,7 +38,7 @@ Node Maker is distributed as a JSON flow file named node-maker.json. To add node
 2) Paste the JSON flow from the clipboard and optionally select the Import into option button for "new flow", followed by the import button.
 
 ## How to Use Node Maker
-Node Maker is a group of subflow nodes that can be found in the Node-RED editor's palette group **node maker**. Within the palette you'll find two important nodes: 1) start node and 2) finish node. Wire these two nodes together and wire an [inject node](https://nodered.org/docs/user-guide/nodes#inject) to the start node. Double click the start node to fill out the required and optional input fields (see 'The start node' below). You may then drag and drop (wire inline) additional *UI input nodes* (user interface input nodes) between the start node and finish node; such as the label, field, selectbox, checkbox, spinner, option, textarea, editor, button, button group, or confignode.
+Node Maker is a group of subflow nodes that can be found in the Node-RED editor's palette group titled **node maker**. Within the palette you'll find two important nodes: 1) start node and 2) finish node. Wire these two nodes together and wire an [inject node](https://nodered.org/docs/user-guide/nodes#inject) to the start node. Double click the start node to fill out the required and optional input fields (see 'The start node' below). You may then drag and drop (wire inline) additional *UI input nodes* (user interface input nodes) between the start node and finish node; such as the label, field, selectbox, checkbox, spinner, option, textarea, editor, button, button group, or confignode.
 
 ### The start node
 The start node marks the beginning of a new node defintion. To create a node,
