@@ -1,5 +1,270 @@
 [
     {
+        "id": "7996feeba4e5f327",
+        "type": "subflow",
+        "name": "spinner",
+        "info": "",
+        "category": "node maker",
+        "in": [
+            {
+                "x": 60,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "62b4d0382560364d"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 640,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "79f6b4d4f4df2a1a",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "field_columns",
+                "type": "str",
+                "value": "col-100",
+                "ui": {
+                    "label": {
+                        "en-US": "Layout"
+                    },
+                    "type": "select",
+                    "opts": {
+                        "opts": [
+                            {
+                                "l": {
+                                    "en-US": "full-row"
+                                },
+                                "v": "col-100"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "3/4 row"
+                                },
+                                "v": "col col-75 sml-lbl"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "2/3 row"
+                                },
+                                "v": "col col-66 sml-lbl"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "1/2 row"
+                                },
+                                "v": "col col-50 sml-lbl"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "1/3 row"
+                                },
+                                "v": "col col-33 sml-lbl"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "1/4 row"
+                                },
+                                "v": "col col-25 sml-lbl"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "field_name",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "en-US": "Field Name"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "field_label",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "en-US": "Label"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "field_icon",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "en-US": "Icon"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "field_default",
+                "type": "num",
+                "value": "",
+                "ui": {
+                    "label": {
+                        "en-US": "Default"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "field_min",
+                "type": "num",
+                "value": "0",
+                "ui": {
+                    "label": {
+                        "en-US": "Min"
+                    },
+                    "type": "spinner"
+                }
+            },
+            {
+                "name": "field_max",
+                "type": "num",
+                "value": "100",
+                "ui": {
+                    "label": {
+                        "en-US": "Max"
+                    },
+                    "type": "spinner"
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99",
+        "icon": "font-awesome/fa-sort"
+    },
+    {
+        "id": "62b4d0382560364d",
+        "type": "function",
+        "z": "7996feeba4e5f327",
+        "name": "spinner",
+        "func": "msg.field_name = env.get('field_name');\nmsg.field_label = env.get('field_label');\nlet icon = env.get('field_icon');\nif (icon != '') {\n    msg.field_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n} else {\n    msg.field_icon = '';\n}\nif (msg.field_label == '') {\n    msg.field_label_elm = '';\n} else {\n    msg.field_label_elm = '<label for=\"node-input-' + msg.field_name + '\">';\n    msg.field_label_elm += msg.field_icon + msg.field_label + '</label>';\n}\nmsg.field_default = env.get('field_default');\nlet fc = env.get('field_columns');\nif (msg.field_label == '') {\n    fc += ' no-label';\n}\nmsg.field_min = env.get('field_min');\nmsg.field_max = env.get('field_max');\nmsg.field_columns = fc;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 160,
+        "y": 40,
+        "wires": [
+            [
+                "07a16db04c64dc2c"
+            ]
+        ]
+    },
+    {
+        "id": "07a16db04c64dc2c",
+        "type": "template",
+        "z": "7996feeba4e5f327",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<div class=\"{{field_columns}}\">\n    {{{field_label_elm}}}\n    <input type=\"text\" id=\"node-input-{{field_name}}\">\n    {{{field_has_hidden_type}}}\n</div><!--col-->",
+        "output": "str",
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "85eb05fc963311be"
+            ]
+        ]
+    },
+    {
+        "id": "85eb05fc963311be",
+        "type": "function",
+        "z": "7996feeba4e5f327",
+        "name": "function 39",
+        "func": "msg.edit_dialog.push(msg.payload);\nmsg.defaults.push(msg.field_name + ': {value:' + msg.field_default + '}');\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "5156716df3b6fd1d"
+            ]
+        ]
+    },
+    {
+        "id": "5156716df3b6fd1d",
+        "type": "template",
+        "z": "7996feeba4e5f327",
+        "name": "oneditprepare",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "            // Prepare spinner {{field_name}}\n            $(\"#node-input-{{field_name}}\").spinner({ min: {{field_min}}, max: {{field_max}} });",
+        "output": "str",
+        "x": 440,
+        "y": 40,
+        "wires": [
+            [
+                "79f6b4d4f4df2a1a"
+            ]
+        ]
+    },
+    {
+        "id": "79f6b4d4f4df2a1a",
+        "type": "function",
+        "z": "7996feeba4e5f327",
+        "name": "function 40",
+        "func": "if (!msg.hasOwnProperty('rgroup_name')) {\n    msg._oneditprepare.push(msg.payload);\n} else {\n    msg.rgroup_details.push({\n        field_name: msg.field_name,\n        field_min: msg.field_min,\n        field_max: msg.field_max,\n        field_default: msg.field_default,\n        field_types: ''\n    });\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "8d72584ecbd0d019",
         "type": "subflow",
         "name": "confignode",
@@ -268,7 +533,7 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "            // Prepare editableList for {{rgroup_name}}\n            $(\"#node-input-{{rgroup_name}}-container\").css('height', '{{rgroup_height}}px').editableList({\n                addItem: function (container, i, opt) {\n                    let repeatingFields = {{{rgroup_details}}};\n                    let html = $('#rgroup-{{rgroup_name}}-template').html();\n                    repeatingFields.forEach(function(rf) {\n                        let fniType = \"{{rgroup_name}}\" + rf.field_name + \"Type\" + String(i).padStart(2, '0');\n                        html = html.replaceAll('id=\"node-input-' + rf.field_name + \"Type\" + '\"', 'id=\"node-input-' + fniType + '\"');\n                        let fni = \"{{rgroup_name}}\" + rf.field_name + String(i).padStart(2, '0');\n                        html = html.replaceAll('id=\"node-input-' + rf.field_name + '\"', 'id=\"node-input-' + fni + '\"');\n                        html = html.replaceAll('for=\"node-input-' + rf.field_name + '\"', 'for=\"node-input-' + fni + '\"');\n                        container.html(html);\n                    });\n                    repeatingFields.forEach(function (rf) {\n                        let fni = \"{{rgroup_name}}\" + rf.field_name + String(i).padStart(2, '0');\n                        if (rf.field_types != '') {\n                            let fniType = \"{{rgroup_name}}\" + rf.field_name + \"Type\" + String(i).padStart(2, '0');\n                            $(\"#node-input-\" + fni).typedInput({\n                                type: rf.field_default_type,\n                                types: rf.field_types,\n                                typeField: \"#node-input-\" + fniType\n                            });\n                        }\n\n                        // Restore entry\n                        if (Object.keys(opt).length != 0) {\n                            if ($(\"#node-input-\" + fni).attr('type') == 'hidden') {\n                                $(\"#node-input-\" + fni).typedInput('type', opt[rf.field_name + 'Type']);\n                                $(\"#node-input-\" + fni).typedInput('value', opt[rf.field_name]);\n                            }else{\n                                if ($(\"#node-input-\" + fni).attr('type') == 'checkbox') {\n                                    $(\"#node-input-\" + fni).prop('checked', opt[rf.field_name]);\n                                }else{\n                                    $(\"#node-input-\" + fni).val(opt[rf.field_name]);\n                                }\n                            }\n                        }else{\n                            if ($(\"#node-input-\" + fni).attr('type') == 'hidden') {\n                                $(\"#node-input-\" + fni).typedInput('value', rf.field_default);\n                            } else {\n                                if ($(\"#node-input-\" + fni).attr('type') != 'checkbox') {\n                                    $(\"#node-input-\" + fni).val(rf.field_default);\n                                }\n                            }\n                        }\n                    });\n                },\n                removeItem: function(opt) {\n                    console.log(arguments);\n                },\n                // sortItems: function (items) {\n                //    \n                // },\n                sortable: {{rgroup_sortable}},\n                removable: true\n            });\n\n            // Load prior editableList data for {{rgroup_name}}\n            if (this.{{rgroup_name}}) {\n                this.{{rgroup_name}}.forEach(function (m) {\n                    $('#node-input-{{rgroup_name}}-container').editableList('addItem', m);\n                });\n            }\n",
+        "template": "            // Prepare editableList for {{rgroup_name}}\n            $(\"#node-input-{{rgroup_name}}-container\").css('height', '{{rgroup_height}}px').editableList({\n                addItem: function (container, i, opt) {\n                    let repeatingFields = {{{rgroup_details}}};\n                    let html = $('#rgroup-{{rgroup_name}}-template').html();\n                    repeatingFields.forEach(function(rf) {\n                        let fniType = \"{{rgroup_name}}\" + rf.field_name + \"Type\" + String(i).padStart(2, '0');\n                        html = html.replaceAll('id=\"node-input-' + rf.field_name + \"Type\" + '\"', 'id=\"node-input-' + fniType + '\"');\n                        let fni = \"{{rgroup_name}}\" + rf.field_name + String(i).padStart(2, '0');\n                        html = html.replaceAll('id=\"node-input-' + rf.field_name + '\"', 'id=\"node-input-' + fni + '\"');\n                        html = html.replaceAll('for=\"node-input-' + rf.field_name + '\"', 'for=\"node-input-' + fni + '\"');\n                        container.html(html);\n                    });\n                    repeatingFields.forEach(function (rf) {\n                        let fni = \"{{rgroup_name}}\" + rf.field_name + String(i).padStart(2, '0');\n                        if (rf.field_types != '') {\n                            let fniType = \"{{rgroup_name}}\" + rf.field_name + \"Type\" + String(i).padStart(2, '0');\n                            $(\"#node-input-\" + fni).typedInput({\n                                type: rf.field_default_type,\n                                types: rf.field_types,\n                                typeField: \"#node-input-\" + fniType\n                            });\n                        }else if(rf.hasOwnProperty('field_min')) {\n                            $(\"#node-input-\" + fni).spinner({ min: rf.field_min, max: rf.field_max });\n                        }\n\n                        // Restore entry\n                        if (Object.keys(opt).length != 0) {\n                            if ($(\"#node-input-\" + fni).attr('type') == 'hidden') {\n                                $(\"#node-input-\" + fni).typedInput('type', opt[rf.field_name + 'Type']);\n                                $(\"#node-input-\" + fni).typedInput('value', opt[rf.field_name]);\n                            }else{\n                                if ($(\"#node-input-\" + fni).attr('type') == 'checkbox') {\n                                    $(\"#node-input-\" + fni).prop('checked', opt[rf.field_name]);\n                                }else{\n                                    $(\"#node-input-\" + fni).val(opt[rf.field_name]);\n                                }\n                            }\n                        }else{\n                            if ($(\"#node-input-\" + fni).attr('type') == 'hidden') {\n                                $(\"#node-input-\" + fni).typedInput('value', rf.field_default);\n                            } else {\n                                if ($(\"#node-input-\" + fni).attr('type') != 'checkbox') {\n                                    $(\"#node-input-\" + fni).val(rf.field_default);\n                                }\n                            }\n                        }\n                    });\n                },\n                removeItem: function(opt) {\n                    console.log(arguments);\n                },\n                // sortItems: function (items) {\n                //    \n                // },\n                sortable: {{rgroup_sortable}},\n                removable: true\n            });\n\n            // Load prior editableList data for {{rgroup_name}}\n            if (this.{{rgroup_name}}) {\n                this.{{rgroup_name}}.forEach(function (m) {\n                    $('#node-input-{{rgroup_name}}-container').editableList('addItem', m);\n                });\n            }\n",
         "output": "str",
         "x": 180,
         "y": 100,
@@ -3978,9 +4243,9 @@
         "id": "b70c68b8740b96fc",
         "type": "comment",
         "z": "0a6ae50c8bea82a5",
-        "name": "Create repeating groups; supports label, field, selectbox, & checkbox.",
+        "name": "Create repeating groups; (only label, field, selectbox, checkbox. & spinner)",
         "info": "",
-        "x": 270,
+        "x": 280,
         "y": 480,
         "wires": []
     },
@@ -4281,5 +4546,16 @@
         "x": 780,
         "y": 480,
         "wires": []
+    },
+    {
+        "id": "a3b93925ea64a640",
+        "type": "subflow:7996feeba4e5f327",
+        "z": "0a6ae50c8bea82a5",
+        "name": "",
+        "x": 80,
+        "y": 380,
+        "wires": [
+            []
+        ]
     }
 ]
