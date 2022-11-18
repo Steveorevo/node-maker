@@ -132,7 +132,11 @@ You can include the pre-built template nodes that come with the Node Maker flow 
 * nodemakerjs - A template for your node's JavaScript file, see [Creating Nodes - JavaScript File documentation](https://nodered.org/docs/creating-nodes/node-js).
 * runtimecode - An optional runtimecode template that can be used in lieu of nodemakerjs, to quickly implement the msg handler for your node.
 
-You can optionally copy the template nodes that you find above and wire them into your flow before the finish node to implement your node's custom behavior and functionality. If you omit them, Node Maker will use a default version of the template internally. Each of the templates cast to the msg object's properties of the same name (`msg.nodemakerhtml`, `msg.nodemakerjs`, and `runtimecode` respectively). Within each file, you will find various [mustache syntax](https://mustache.github.io/mustache.5.html) elements. These mustache elements are used to inject Node Maker's generated code and should be preserved. 
+To use these optional template nodes, copy the template node and wire them into your flow *after* the **use templts** node and *before* the **finish node** to implement your node's custom behavior and functionality. 
+
+*Note: You must wire in the **use templts** node before the **template** nodes to use the templates.*
+
+If you omit them, Node Maker will use a default version of the template internally. Each of the templates cast to the msg object's properties of the same name (`msg.nodemakerhtml`, `msg.nodemakerjs`, and `runtimecode` respectively). Within each file, you will find various [mustache syntax](https://mustache.github.io/mustache.5.html) elements. These mustache elements are used to inject Node Maker's generated code and should be preserved. 
 
 Lastly, Node Maker will write the files for your node into a folder within your node_modules folder of your running Node-RED instance. By default on Linux based operating systems the location would be:
 
