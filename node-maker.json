@@ -1,5 +1,75 @@
 [
     {
+        "id": "9771d13dd19bf60f",
+        "type": "subflow",
+        "name": "use templts.",
+        "info": "If you use any of the code templates, be sure to place this node before it.",
+        "category": "node maker",
+        "in": [
+            {
+                "x": 40,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "ebd81684ada1c31c"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 420,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "6bb34952a24fe530",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#F3B567",
+        "icon": "font-awesome/fa-file-code-o"
+    },
+    {
+        "id": "ebd81684ada1c31c",
+        "type": "template",
+        "z": "9771d13dd19bf60f",
+        "name": "re-size fix",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "            // Allow dynamic re-size after init. appearance \n            setTimeout(function () {\n                $('#node-props').css('width', '100%');\n            }, 30);",
+        "output": "str",
+        "x": 180,
+        "y": 40,
+        "wires": [
+            [
+                "6bb34952a24fe530"
+            ]
+        ]
+    },
+    {
+        "id": "6bb34952a24fe530",
+        "type": "function",
+        "z": "9771d13dd19bf60f",
+        "name": "compose defaults, othercode",
+        "func": "msg._oneditprepare.push(msg.payload);\n\nString.prototype.delRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n        }\n    }\n    return this;\n};\nString.prototype.delLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nvar indent = \" \".repeat(4);\nvar tabIndent = \"\";\nvar edit_dialog = \" \".repeat(8) + '<div class=\"form-row\">' + \"\\n\";\nvar cTotal = 0;\nvar nItems = 0;\nvar initTab = false;\nvar firstTabName = '';\nvar bInRGroup = false;    \nmsg.edit_dialog.forEach(function(item, index) {\n    if (item.indexOf('\"type\":\"tab_definition\"') == -1 && item.indexOf('form-row rgroup') == -1) {\n        item = item.replace(/^/gm, tabIndent);\n        item = item.replace(/^/gm, tabIndent);\n        if (bInRGroup) {\n            item = item.replace(/^/gm, \" \".repeat(4));\n        }\n    }\n    if (item.indexOf('<div class=\"form-row rgroup\"') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        item += \" \".repeat(4) + '<div class=\"form-row\">' + \"\\n\";\n        item = item.replace(/^/gm, \" \".repeat(8) + tabIndent).trimEnd() + \"\\n\";\n        bInRGroup = true;\n        edit_dialog += item;\n        return;\n    }\n    if (item.indexOf('<!--form-row rgroup-->') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        edit_dialog += \" \".repeat(8) + tabIndent + \"</div><!--form-row rgroup-...-template-->\\n\";\n        if (index < msg.edit_dialog.length - 1) {\n            edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n        }\n        bInRGroup = false;\n        return;\n    }\n    if (item.indexOf('\"type\":\"tab_definition\"') > -1) {\n        let tab = JSON.parse(item);\n        if (initTab == false) {\n            \n            // Inject the tab row\n            let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n            edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n            edit_dialog += '<div class=\"form-row func-tabs-row\">' + r;\n            edit_dialog += indent + indent + indent + '<ul style=\"min-width: 600px; margin-bottom: 20px;\" id=\"func-tabs\"></ul>' + \"\\n\";\n            edit_dialog += indent + indent + \"</div><!--func-tabs-row-->\\n\";\n            edit_dialog += indent + indent + '<div id=\"func-tabs-content\" style=\"min-height: calc(100% - 95px);\">' + \"\\n\";\n\n            // Start first tab\n            edit_dialog += indent + indent + indent + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += indent + indent + indent + indent + '<div class=\"form-row\">' + \"\\n\";\n            tabIndent = \" \".repeat(8);\n\n            // Init tab system\n            let code = \"// Prepare tab system\\n\";\n            code += \"var tabs = RED.tabs.create({\\n\";\n            code += \"    id: 'func-tabs',\\n\";\n            code += \"    onchange: function(tab) {\\n\";\n            code += \"        $('#func-tabs-content').children().hide();\\n\";\n            code += \"        $('#' + tab.id).show();\\n\";\n            code += \"    }\\n\";\n            code += \"});\\n\\n\";\n\n            // Add first tab code\n            code += \"// Add first tab, \" + tab.name + \"\\n\";\n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            firstTabName = tab.name;\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n            initTab = true;\n        }else{\n\n            // Add subsequent tabs \n            let r = edit_dialog.getRightMost('    <div class=\"form-row\"');\n            edit_dialog = edit_dialog.delRightMost('    <div class=\"form-row\"');\n            edit_dialog += \"</div><!--func-tab-tab#-->\\n\"; // close out last tab\n            edit_dialog += \" \".repeat(12) + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += \" \".repeat(16) + '<div class=\"form-row\"' + r;\n\n            // Add additional tab code\n            let code = \"// Add tab, \" + tab.name + \"\\n\";            \n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n        }        \n    }else{\n        if (tabIndent == '') {\n            item = item.replace(/^/gm, indent + indent + indent);\n        }else{\n            item = item.replace(/^/gm, indent);\n        }\n        let c = item.delLeftMost('col-').getLeftMost('\"').getLeftMost(' ');\n        cTotal += Number(c);\n        if (cTotal >= 83) {\n            let m = 5 * nItems;\n            if (m > 0) {\n                item = item.replace(\n                    'class=\"col ',\n                    'style=\"margin-right:-' + m.toString() + 'px;\" class=\"col '\n                );\n            }\n            if (nItems == 3) {\n                let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n                edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n                edit_dialog += '<div class=\"form-row\" style=\"margin-right:10px;\">' + r;\n            }\n            edit_dialog += item + \"\\n\";\n            if (index < msg.edit_dialog.length - 1) {\n                if (bInRGroup) {\n                    edit_dialog += \" \".repeat(4);\n                }\n                edit_dialog += indent + indent + tabIndent + \"</div><!--form-row-->\\n\";\n                edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n                cTotal = 0;\n                nItems = 0;\n            }\n        } else {\n            edit_dialog += item + \"\\n\";\n            nItems++;\n        }\n    }\n});\nif (initTab) { \n    edit_dialog += \" \".repeat(16) + \"</div><!--form-row-->\\n\";\n    edit_dialog += \" \".repeat(12) + \"</div><!--func-tab-tab#-->\\n\";\n    edit_dialog += \" \".repeat(8) + \"</div><!--func-tabs-content-->\";\n\n    // Activate the first tab if present\n    let code = \" \".repeat(12) + 'tabs.activateTab(\"func-tab-' + firstTabName + '\");' + \"\\n\";\n    msg._oneditprepare.push(code);\n}else{\n    edit_dialog += \" \".repeat(8) + \"</div><!--form-row-->\";\n}\nmsg.edit_dialog = edit_dialog;\n\nlet defaults = '';\nmsg.defaults.forEach(function(item, index) {\n    defaults += \"            \" + item;\n    if (index < msg.defaults.length -1) {\n        defaults += \",\\n\";\n    }else{\n        defaults += \"\\n\";\n    }\n});\nmsg.defaults = defaults;\nmsg.oneditprepare = \"\\n\" + msg._oneditprepare.join(\"\\n\");\nmsg.oneditresize = \"\\n\" + msg._oneditresize.join(\"\\n\");\nmsg.oneditsave = \"\\n\" + msg._oneditsave.join(\"\\n\");\nmsg.oneditcancel = \"\\n\" + msg._oneditcancel.join(\"\\n\");\nmsg.defaults = msg.defaults.slice(0, -1);\nvar othercode = \"\";\nfor (var key in msg._othercode) {\n    var value = msg._othercode[key];\n    othercode += value;\n}\nmsg.othercode = \"\\n\" + othercode;\nmsg.runtimecode = \"\\n\" + msg.runtimecode.replace(/^/gm, \"    \".repeat(4));\nmsg.useTemplates = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "7996feeba4e5f327",
         "type": "subflow",
         "name": "spinner",
@@ -2659,7 +2729,7 @@
         "type": "function",
         "z": "b30b4cf6837f20a7",
         "name": "function 25",
-        "func": "if (!msg.hasOwnProperty('rgroup_name')) {\n    msg._oneditprepare.push(msg.payload);\n} else {\n    node.warn('[' + msg.field_values + ']');\n    msg.rgroup_details.push({\n        field_name: msg.field_name,\n        field_types: [{\n                value: msg.field_name,\n                multiple: (msg.selectbox_multiple != ''),\n                options: JSON.parse('[' + msg.field_values + ']')\n        }],\n        field_default_type: null,\n        field_default: msg.field_default\n    });\n}\nreturn msg;",
+        "func": "if (!msg.hasOwnProperty('rgroup_name')) {\n    msg._oneditprepare.push(msg.payload);\n} else {\n    msg.rgroup_details.push({\n        field_name: msg.field_name,\n        field_types: [{\n                value: msg.field_name,\n                multiple: (msg.selectbox_multiple != ''),\n                options: JSON.parse('[' + msg.field_values + ']')\n        }],\n        field_default_type: null,\n        field_default: msg.field_default\n    });\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3344,7 +3414,7 @@
         "template": "<style>\n    {{{customcss}}}\n</style>\n<script type=\"text/html\" data-template-name=\"{{node_name}}\">\n    {{{inc_node_name}}}\n    <div id=\"node-props\" style=\"width: {{row_width}}px;\">\n        {{{edit_dialog}}}\n    </div><!--node-props-->\n</script>\n\n<script type=\"text/html\" data-help-name=\"{{node_name}}\">\n    {{{helpdetails}}}\n</script>\n\n<script type=\"text/javascript\">\n    RED.nodes.registerType('{{node_name}}', {\n        category: '{{node_category}}',\n        color: '{{node_color}}',\n        defaults: {\n            name: {value:\"\"},\n            {{{defaults}}}\n        },\n        inputs: {{numinputs}},\n        outputs: {{numoutputs}},\n        icon: \"font-awesome/fa-{{{node_icon}}}\",\n        label: function() {\n            return this.name || \"{{node_name}}\";\n        },\n        labelStyle: function() {\n            return this.name ? \"node_label_italic\" : \"\";\n        },\n        oneditprepare: function() {\n            {{{oneditprepare}}}\n        },\n        oneditresize: function() {\n            {{{oneditresize}}}        \n        },\n        oneditsave: function() {\n            {{{oneditsave}}}\n        },\n        oneditcancel: function() {\n            {{{oneditcancel}}}\n        }\n    });\n    {{{othercode}}}\n</script>\n",
         "output": "str",
         "x": 360,
-        "y": 160,
+        "y": 200,
         "wires": [
             [
                 "1d0b5202023b245b"
@@ -3363,29 +3433,10 @@
         "overwriteFile": "true",
         "encoding": "utf8",
         "x": 670,
-        "y": 180,
+        "y": 220,
         "wires": [
             [
                 "f26a2d19e71211be"
-            ]
-        ]
-    },
-    {
-        "id": "3d44470abb3be3af",
-        "type": "function",
-        "z": "65d5e45697fed99a",
-        "name": "compose defaults, othercode",
-        "func": "msg._oneditprepare.push(msg.payload);\n\nString.prototype.delRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n        }\n    }\n    return this;\n};\nString.prototype.delLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nvar indent = \" \".repeat(4);\nvar tabIndent = \"\";\nvar edit_dialog = \" \".repeat(8) + '<div class=\"form-row\">' + \"\\n\";\nvar cTotal = 0;\nvar nItems = 0;\nvar initTab = false;\nvar firstTabName = '';\nvar bInRGroup = false;    \nmsg.edit_dialog.forEach(function(item, index) {\n    if (item.indexOf('\"type\":\"tab_definition\"') == -1 && item.indexOf('form-row rgroup') == -1) {\n        item = item.replace(/^/gm, tabIndent);\n        item = item.replace(/^/gm, tabIndent);\n        if (bInRGroup) {\n            item = item.replace(/^/gm, \" \".repeat(4));\n        }\n    }\n    if (item.indexOf('<div class=\"form-row rgroup\"') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        item += \" \".repeat(4) + '<div class=\"form-row\">' + \"\\n\";\n        item = item.replace(/^/gm, \" \".repeat(8) + tabIndent).trimEnd() + \"\\n\";\n        bInRGroup = true;\n        edit_dialog += item;\n        return;\n    }\n    if (item.indexOf('<!--form-row rgroup-->') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        edit_dialog += \" \".repeat(8) + tabIndent + \"</div><!--form-row rgroup-...-template-->\\n\";\n        if (index < msg.edit_dialog.length - 1) {\n            edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n        }\n        bInRGroup = false;\n        return;\n    }\n    if (item.indexOf('\"type\":\"tab_definition\"') > -1) {\n        let tab = JSON.parse(item);\n        if (initTab == false) {\n            \n            // Inject the tab row\n            let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n            edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n            edit_dialog += '<div class=\"form-row func-tabs-row\">' + r;\n            edit_dialog += indent + indent + indent + '<ul style=\"min-width: 600px; margin-bottom: 20px;\" id=\"func-tabs\"></ul>' + \"\\n\";\n            edit_dialog += indent + indent + \"</div><!--func-tabs-row-->\\n\";\n            edit_dialog += indent + indent + '<div id=\"func-tabs-content\" style=\"min-height: calc(100% - 95px);\">' + \"\\n\";\n\n            // Start first tab\n            edit_dialog += indent + indent + indent + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += indent + indent + indent + indent + '<div class=\"form-row\">' + \"\\n\";\n            tabIndent = \" \".repeat(8);\n\n            // Init tab system\n            let code = \"// Prepare tab system\\n\";\n            code += \"var tabs = RED.tabs.create({\\n\";\n            code += \"    id: 'func-tabs',\\n\";\n            code += \"    onchange: function(tab) {\\n\";\n            code += \"        $('#func-tabs-content').children().hide();\\n\";\n            code += \"        $('#' + tab.id).show();\\n\";\n            code += \"    }\\n\";\n            code += \"});\\n\\n\";\n\n            // Add first tab code\n            code += \"// Add first tab, \" + tab.name + \"\\n\";\n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            firstTabName = tab.name;\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n            initTab = true;\n        }else{\n\n            // Add subsequent tabs \n            let r = edit_dialog.getRightMost('    <div class=\"form-row\"');\n            edit_dialog = edit_dialog.delRightMost('    <div class=\"form-row\"');\n            edit_dialog += \"</div><!--func-tab-tab#-->\\n\"; // close out last tab\n            edit_dialog += \" \".repeat(12) + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += \" \".repeat(16) + '<div class=\"form-row\"' + r;\n\n            // Add additional tab code\n            let code = \"// Add tab, \" + tab.name + \"\\n\";            \n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n        }        \n    }else{\n        if (tabIndent == '') {\n            item = item.replace(/^/gm, indent + indent + indent);\n        }else{\n            item = item.replace(/^/gm, indent);\n        }\n        let c = item.delLeftMost('col-').getLeftMost('\"').getLeftMost(' ');\n        cTotal += Number(c);\n        if (cTotal >= 83) {\n            let m = 5 * nItems;\n            if (m > 0) {\n                item = item.replace(\n                    'class=\"col ',\n                    'style=\"margin-right:-' + m.toString() + 'px;\" class=\"col '\n                );\n            }\n            if (nItems == 3) {\n                let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n                edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n                edit_dialog += '<div class=\"form-row\" style=\"margin-right:10px;\">' + r;\n            }\n            edit_dialog += item + \"\\n\";\n            if (index < msg.edit_dialog.length - 1) {\n                if (bInRGroup) {\n                    edit_dialog += \" \".repeat(4);\n                }\n                edit_dialog += indent + indent + tabIndent + \"</div><!--form-row-->\\n\";\n                edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n                cTotal = 0;\n                nItems = 0;\n            }\n        } else {\n            edit_dialog += item + \"\\n\";\n            nItems++;\n        }\n    }\n});\nif (initTab) { \n    edit_dialog += \" \".repeat(16) + \"</div><!--form-row-->\\n\";\n    edit_dialog += \" \".repeat(12) + \"</div><!--func-tab-tab#-->\\n\";\n    edit_dialog += \" \".repeat(8) + \"</div><!--func-tabs-content-->\";\n\n    // Activate the first tab if present\n    let code = \" \".repeat(12) + 'tabs.activateTab(\"func-tab-' + firstTabName + '\");' + \"\\n\";\n    msg._oneditprepare.push(code);\n}else{\n    edit_dialog += \" \".repeat(8) + \"</div><!--form-row-->\";\n}\nmsg.edit_dialog = edit_dialog;\n\nlet defaults = '';\nmsg.defaults.forEach(function(item, index) {\n    defaults += \"            \" + item;\n    if (index < msg.defaults.length -1) {\n        defaults += \",\\n\";\n    }else{\n        defaults += \"\\n\";\n    }\n});\nmsg.defaults = defaults;\nmsg.oneditprepare = \"\\n\" + msg._oneditprepare.join(\"\\n\");\nmsg.oneditresize = \"\\n\" + msg._oneditresize.join(\"\\n\");\nmsg.oneditsave = \"\\n\" + msg._oneditsave.join(\"\\n\");\nmsg.oneditcancel = \"\\n\" + msg._oneditcancel.join(\"\\n\");\nmsg.defaults = msg.defaults.slice(0, -1);\nvar othercode = \"\";\nfor (var key in msg._othercode) {\n    var value = msg._othercode[key];\n    othercode += value;\n}\nmsg.othercode = \"\\n\" + othercode;\nmsg.runtimecode = \"\\n\" + msg.runtimecode.replace(/^/gm, \"    \".repeat(4));\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 240,
-        "y": 100,
-        "wires": [
-            [
-                "fa07b8c430e2643d"
             ]
         ]
     },
@@ -3402,7 +3453,7 @@
         "oldrc": false,
         "name": "restart node-red",
         "x": 200,
-        "y": 420,
+        "y": 480,
         "wires": [
             [
                 "e674d758d3c14af8"
@@ -3429,7 +3480,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 440,
-        "y": 420,
+        "y": 480,
         "wires": []
     },
     {
@@ -3444,7 +3495,7 @@
         "template": "module.exports = function(RED) {\n    function {{node_name}}(config) {\n        RED.nodes.createNode(this,config);\n        var node = this;\n        {{{runtimecode}}}\n    }\n    RED.nodes.registerType('{{node_name}}', {{node_name}});\n}",
         "output": "str",
         "x": 350,
-        "y": 260,
+        "y": 320,
         "wires": [
             [
                 "8f4279aa76193d2d"
@@ -3463,29 +3514,10 @@
         "overwriteFile": "true",
         "encoding": "utf8",
         "x": 670,
-        "y": 280,
+        "y": 340,
         "wires": [
             [
                 "2a9f513d9174ccde"
-            ]
-        ]
-    },
-    {
-        "id": "37f124c38d4954c7",
-        "type": "template",
-        "z": "65d5e45697fed99a",
-        "name": "re-size fix",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "// Allow dynamic re-size after init. appearance \nsetTimeout(function () {\n    $('#node-props').css('width', '100%');\n}, 30);",
-        "output": "str",
-        "x": 180,
-        "y": 40,
-        "wires": [
-            [
-                "3d44470abb3be3af"
             ]
         ]
     },
@@ -3508,7 +3540,7 @@
         "repair": false,
         "outputs": 2,
         "x": 170,
-        "y": 180,
+        "y": 220,
         "wires": [
             [
                 "0eb2dcf71e3bf43f"
@@ -3538,7 +3570,7 @@
         "to": "",
         "reg": false,
         "x": 360,
-        "y": 200,
+        "y": 240,
         "wires": [
             [
                 "1d0b5202023b245b"
@@ -3564,7 +3596,7 @@
         "repair": false,
         "outputs": 2,
         "x": 170,
-        "y": 280,
+        "y": 340,
         "wires": [
             [
                 "43b6b50718414f9f"
@@ -3594,10 +3626,48 @@
         "to": "",
         "reg": false,
         "x": 360,
-        "y": 300,
+        "y": 360,
         "wires": [
             [
                 "8f4279aa76193d2d"
+            ]
+        ]
+    },
+    {
+        "id": "3d44470abb3be3af",
+        "type": "function",
+        "z": "65d5e45697fed99a",
+        "name": "compose defaults, othercode",
+        "func": "if (msg.hasOwnProperty('useTemplates')) return msg;\nmsg._oneditprepare.push(msg.payload);\n\nString.prototype.delRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n        }\n    }\n    return this;\n};\nString.prototype.delLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nvar indent = \" \".repeat(4);\nvar tabIndent = \"\";\nvar edit_dialog = \" \".repeat(8) + '<div class=\"form-row\">' + \"\\n\";\nvar cTotal = 0;\nvar nItems = 0;\nvar initTab = false;\nvar firstTabName = '';\nvar bInRGroup = false;    \nmsg.edit_dialog.forEach(function(item, index) {\n    if (item.indexOf('\"type\":\"tab_definition\"') == -1 && item.indexOf('form-row rgroup') == -1) {\n        item = item.replace(/^/gm, tabIndent);\n        item = item.replace(/^/gm, tabIndent);\n        if (bInRGroup) {\n            item = item.replace(/^/gm, \" \".repeat(4));\n        }\n    }\n    if (item.indexOf('<div class=\"form-row rgroup\"') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        item += \" \".repeat(4) + '<div class=\"form-row\">' + \"\\n\";\n        item = item.replace(/^/gm, \" \".repeat(8) + tabIndent).trimEnd() + \"\\n\";\n        bInRGroup = true;\n        edit_dialog += item;\n        return;\n    }\n    if (item.indexOf('<!--form-row rgroup-->') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        edit_dialog += \" \".repeat(8) + tabIndent + \"</div><!--form-row rgroup-...-template-->\\n\";\n        if (index < msg.edit_dialog.length - 1) {\n            edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n        }\n        bInRGroup = false;\n        return;\n    }\n    if (item.indexOf('\"type\":\"tab_definition\"') > -1) {\n        let tab = JSON.parse(item);\n        if (initTab == false) {\n            \n            // Inject the tab row\n            let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n            edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n            edit_dialog += '<div class=\"form-row func-tabs-row\">' + r;\n            edit_dialog += indent + indent + indent + '<ul style=\"min-width: 600px; margin-bottom: 20px;\" id=\"func-tabs\"></ul>' + \"\\n\";\n            edit_dialog += indent + indent + \"</div><!--func-tabs-row-->\\n\";\n            edit_dialog += indent + indent + '<div id=\"func-tabs-content\" style=\"min-height: calc(100% - 95px);\">' + \"\\n\";\n\n            // Start first tab\n            edit_dialog += indent + indent + indent + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += indent + indent + indent + indent + '<div class=\"form-row\">' + \"\\n\";\n            tabIndent = \" \".repeat(8);\n\n            // Init tab system\n            let code = \"// Prepare tab system\\n\";\n            code += \"var tabs = RED.tabs.create({\\n\";\n            code += \"    id: 'func-tabs',\\n\";\n            code += \"    onchange: function(tab) {\\n\";\n            code += \"        $('#func-tabs-content').children().hide();\\n\";\n            code += \"        $('#' + tab.id).show();\\n\";\n            code += \"    }\\n\";\n            code += \"});\\n\\n\";\n\n            // Add first tab code\n            code += \"// Add first tab, \" + tab.name + \"\\n\";\n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            firstTabName = tab.name;\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n            initTab = true;\n        }else{\n\n            // Add subsequent tabs \n            let r = edit_dialog.getRightMost('    <div class=\"form-row\"');\n            edit_dialog = edit_dialog.delRightMost('    <div class=\"form-row\"');\n            edit_dialog += \"</div><!--func-tab-tab#-->\\n\"; // close out last tab\n            edit_dialog += \" \".repeat(12) + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += \" \".repeat(16) + '<div class=\"form-row\"' + r;\n\n            // Add additional tab code\n            let code = \"// Add tab, \" + tab.name + \"\\n\";            \n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n        }        \n    }else{\n        if (tabIndent == '') {\n            item = item.replace(/^/gm, indent + indent + indent);\n        }else{\n            item = item.replace(/^/gm, indent);\n        }\n        let c = item.delLeftMost('col-').getLeftMost('\"').getLeftMost(' ');\n        cTotal += Number(c);\n        if (cTotal >= 83) {\n            let m = 5 * nItems;\n            if (m > 0) {\n                item = item.replace(\n                    'class=\"col ',\n                    'style=\"margin-right:-' + m.toString() + 'px;\" class=\"col '\n                );\n            }\n            if (nItems == 3) {\n                let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n                edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n                edit_dialog += '<div class=\"form-row\" style=\"margin-right:10px;\">' + r;\n            }\n            edit_dialog += item + \"\\n\";\n            if (index < msg.edit_dialog.length - 1) {\n                if (bInRGroup) {\n                    edit_dialog += \" \".repeat(4);\n                }\n                edit_dialog += indent + indent + tabIndent + \"</div><!--form-row-->\\n\";\n                edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n                cTotal = 0;\n                nItems = 0;\n            }\n        } else {\n            edit_dialog += item + \"\\n\";\n            nItems++;\n        }\n    }\n});\nif (initTab) { \n    edit_dialog += \" \".repeat(16) + \"</div><!--form-row-->\\n\";\n    edit_dialog += \" \".repeat(12) + \"</div><!--func-tab-tab#-->\\n\";\n    edit_dialog += \" \".repeat(8) + \"</div><!--func-tabs-content-->\";\n\n    // Activate the first tab if present\n    let code = \" \".repeat(12) + 'tabs.activateTab(\"func-tab-' + firstTabName + '\");' + \"\\n\";\n    msg._oneditprepare.push(code);\n}else{\n    edit_dialog += \" \".repeat(8) + \"</div><!--form-row-->\";\n}\nmsg.edit_dialog = edit_dialog;\n\nlet defaults = '';\nmsg.defaults.forEach(function(item, index) {\n    defaults += \"            \" + item;\n    if (index < msg.defaults.length -1) {\n        defaults += \",\\n\";\n    }else{\n        defaults += \"\\n\";\n    }\n});\nmsg.defaults = defaults;\nmsg.oneditprepare = \"\\n\" + msg._oneditprepare.join(\"\\n\");\nmsg.oneditresize = \"\\n\" + msg._oneditresize.join(\"\\n\");\nmsg.oneditsave = \"\\n\" + msg._oneditsave.join(\"\\n\");\nmsg.oneditcancel = \"\\n\" + msg._oneditcancel.join(\"\\n\");\nmsg.defaults = msg.defaults.slice(0, -1);\nvar othercode = \"\";\nfor (var key in msg._othercode) {\n    var value = msg._othercode[key];\n    othercode += value;\n}\nmsg.othercode = \"\\n\" + othercode;\nmsg.runtimecode = \"\\n\" + msg.runtimecode.replace(/^/gm, \"    \".repeat(4));\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 100,
+        "wires": [
+            [
+                "fa07b8c430e2643d"
+            ]
+        ]
+    },
+    {
+        "id": "37f124c38d4954c7",
+        "type": "template",
+        "z": "65d5e45697fed99a",
+        "name": "re-size fix",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "            // Allow dynamic re-size after init. appearance \n            setTimeout(function () {\n                $('#node-props').css('width', '100%');\n            }, 30);",
+        "output": "str",
+        "x": 200,
+        "y": 40,
+        "wires": [
+            [
+                "3d44470abb3be3af"
             ]
         ]
     },
@@ -3606,7 +3676,7 @@
         "type": "junction",
         "z": "65d5e45697fed99a",
         "x": 500,
-        "y": 180,
+        "y": 220,
         "wires": [
             [
                 "46fdba84593e4a18"
@@ -4352,7 +4422,7 @@
         "type": "subflow:65d5e45697fed99a",
         "z": "0a6ae50c8bea82a5",
         "name": "",
-        "x": 970,
+        "x": 990,
         "y": 420,
         "wires": []
     },
@@ -4388,11 +4458,11 @@
                 "type": "str"
             }
         ],
-        "x": 630,
-        "y": 420,
+        "x": 1010,
+        "y": 360,
         "wires": [
             [
-                "f90dfc43615618b4"
+                "f7c03cbde7e9de62"
             ]
         ]
     },
@@ -4477,7 +4547,7 @@
         "syntax": "mustache",
         "template": "<style>\n    {{{customcss}}}\n</style>\n<script type=\"text/html\" data-template-name=\"{{node_name}}\">\n    {{{inc_node_name}}}\n    <div id=\"node-props\" style=\"width: {{row_width}}px;\">\n        {{{edit_dialog}}}\n    </div><!--node-props-->\n</script>\n\n<script type=\"text/html\" data-help-name=\"{{node_name}}\">\n    {{{helpdetails}}}\n</script>\n\n<script type=\"text/javascript\">\n    RED.nodes.registerType('{{node_name}}', {\n        category: '{{node_category}}',\n        color: '{{node_color}}',\n        defaults: {\n            name: {value:\"\"},\n            {{{defaults}}}\n        },\n        inputs: {{numinputs}},\n        outputs: {{numoutputs}},\n        icon: \"font-awesome/fa-{{{node_icon}}}\",\n        label: function() {\n            return this.name || \"{{node_name}}\";\n        },\n        labelStyle: function() {\n            return this.name ? \"node_label_italic\" : \"\";\n        },\n        oneditprepare: function() {\n            {{{oneditprepare}}}\n        },\n        oneditresize: function() {\n            {{{oneditresize}}}        \n        },\n        oneditsave: function() {\n            {{{oneditsave}}}\n        },\n        oneditcancel: function() {\n            {{{oneditcancel}}}\n        }\n    });\n    {{{othercode}}}\n</script>\n",
         "output": "str",
-        "x": 640,
+        "x": 820,
         "y": 220,
         "wires": [
             []
@@ -4494,7 +4564,7 @@
         "syntax": "mustache",
         "template": "module.exports = function(RED) {\n    function {{node_name}}(config) {\n        RED.nodes.createNode(this,config);\n        var node = this;\n        {{{runtimecode}}}\n    }\n    RED.nodes.registerType('{{node_name}}', {{node_name}});\n}",
         "output": "str",
-        "x": 630,
+        "x": 810,
         "y": 260,
         "wires": [
             []
@@ -4511,7 +4581,7 @@
         "syntax": "mustache",
         "template": "node.on('input', function(msg) {\n    msg.payload = \"{{node_name}}\";\n    node.send(msg);\n});",
         "output": "str",
-        "x": 790,
+        "x": 810,
         "y": 420,
         "wires": [
             [
@@ -4530,8 +4600,8 @@
         "syntax": "mustache",
         "template": "node.on('input', function(msg) {\n    msg.payload = \"{{node_name}}\";\n    node.send(msg);\n});",
         "output": "str",
-        "x": 850,
-        "y": 220,
+        "x": 630,
+        "y": 260,
         "wires": [
             []
         ]
@@ -4555,6 +4625,30 @@
         "y": 380,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "05ee1cee1d2cdd54",
+        "type": "subflow:9771d13dd19bf60f",
+        "z": "0a6ae50c8bea82a5",
+        "name": "",
+        "x": 630,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f7c03cbde7e9de62",
+        "type": "subflow:9771d13dd19bf60f",
+        "z": "0a6ae50c8bea82a5",
+        "name": "",
+        "x": 630,
+        "y": 420,
+        "wires": [
+            [
+                "f90dfc43615618b4"
+            ]
         ]
     }
 ]
