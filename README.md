@@ -189,6 +189,6 @@ You can help Steveorevo's open source development endeavors by donating any amou
 
 <!---------------------------------------------------------------------------->
 
-[KBD]: https://www.paypal.com/pools/c/8P4HVTZiH2
+[KBD]: https://steveorevo.com/donate
 
-https://www.paypal.com/pools/c/8P4HVTZiH2
+https://steveorevo.com/donate
