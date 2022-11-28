@@ -1,0 +1,49 @@
+<style>
+    {{{customcss}}}
+</style>
+<script type="text/html" data-template-name="{{node_name}}">
+    {{{inc_node_name}}}
+    <div id="node-props" style="width: {{row_width}}px;">
+        {{{edit_dialog}}}
+    </div><!--node-props-->
+</script>
+
+<script type="text/html" data-help-name="{{node_name}}">
+    {{{helpdetails}}}
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('{{node_name}}', {
+        category: '{{node_category}}',
+        {{#node_palettelabel.length}}
+        paletteLabel: '{{node_palettelabel}}',
+        {{/node_palettelabel.length}}        
+        color: '{{node_color}}',
+        defaults: {
+            name: {value:""},
+            {{{defaults}}}
+        },
+        inputs: {{numinputs}},
+        outputs: {{numoutputs}},
+        icon: "font-awesome/fa-{{{node_icon}}}",
+        label: function() {
+            return this.name || "{{node_name}}";
+        },
+        labelStyle: function() {
+            return this.name ? "node_label_italic" : "";
+        },
+        oneditprepare: function() {
+            {{{oneditprepare}}}
+        },
+        oneditresize: function() {
+            {{{oneditresize}}}        
+        },
+        oneditsave: function() {
+            {{{oneditsave}}}
+        },
+        oneditcancel: function() {
+            {{{oneditcancel}}}
+        }
+    });
+    {{{othercode}}}
+</script>

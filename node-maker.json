@@ -2,7 +2,7 @@
     {
         "id": "fa039591fddc0902",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "node-maker",
         "disabled": false,
         "info": "",
         "env": []
@@ -61,7 +61,7 @@
         "out": [
             {
                 "x": 640,
-                "y": 40,
+                "y": 100,
                 "wires": [
                     {
                         "id": "79f6b4d4f4df2a1a",
@@ -384,7 +384,7 @@
         ],
         "out": [
             {
-                "x": 560,
+                "x": 600,
                 "y": 100,
                 "wires": [
                     {
@@ -610,7 +610,7 @@
         ],
         "out": [
             {
-                "x": 540,
+                "x": 580,
                 "y": 100,
                 "wires": [
                     {
@@ -905,11 +905,11 @@
         ],
         "out": [
             {
-                "x": 640,
-                "y": 40,
+                "x": 660,
+                "y": 380,
                 "wires": [
                     {
-                        "id": "d7e901b6cb4bab1b",
+                        "id": "af0afbba9a411b15",
                         "port": 0
                     }
                 ]
@@ -1718,7 +1718,7 @@
         ],
         "out": [
             {
-                "x": 320,
+                "x": 360,
                 "y": 160,
                 "wires": [
                     {
@@ -2412,16 +2412,6 @@
         "color": "#DDAA99"
     },
     {
-        "id": "d7e901b6cb4bab1b",
-        "type": "junction",
-        "z": "60de16a0fefb7ace",
-        "x": 540,
-        "y": 380,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "11ee4d2cf1435263",
         "type": "junction",
         "z": "7062e6f741533eb2",
@@ -2468,14 +2458,14 @@
         "id": "6bb34952a24fe530",
         "type": "function",
         "z": "9771d13dd19bf60f",
-        "name": "compose defaults, othercode",
+        "name": "compose_code",
         "func": "msg._oneditprepare.push(msg.payload);\n\nString.prototype.delRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n        }\n    }\n    return this;\n};\nString.prototype.delLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nvar indent = \" \".repeat(4);\nvar tabIndent = \"\";\nvar edit_dialog = \" \".repeat(8) + '<div class=\"form-row\">' + \"\\n\";\nvar cTotal = 0;\nvar nItems = 0;\nvar initTab = false;\nvar firstTabName = '';\nvar bInRGroup = false;    \nmsg.edit_dialog.forEach(function(item, index) {\n    if (item.indexOf('\"type\":\"tab_definition\"') == -1 && item.indexOf('form-row rgroup') == -1) {\n        item = item.replace(/^/gm, tabIndent);\n        item = item.replace(/^/gm, tabIndent);\n        if (bInRGroup) {\n            item = item.replace(/^/gm, \" \".repeat(4));\n        }\n    }\n    if (item.indexOf('<div class=\"form-row rgroup\"') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        item += \" \".repeat(4) + '<div class=\"form-row\">' + \"\\n\";\n        item = item.replace(/^/gm, \" \".repeat(8) + tabIndent).trimEnd() + \"\\n\";\n        bInRGroup = true;\n        edit_dialog += item;\n        return;\n    }\n    if (item.indexOf('<!--form-row rgroup-->') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        edit_dialog += \" \".repeat(8) + tabIndent + \"</div><!--form-row rgroup-...-template-->\\n\";\n        if (index < msg.edit_dialog.length - 1) {\n            edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n        }\n        bInRGroup = false;\n        return;\n    }\n    if (item.indexOf('\"type\":\"tab_definition\"') > -1) {\n        let tab = JSON.parse(item);\n        if (initTab == false) {\n            \n            // Inject the tab row\n            let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n            edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n            edit_dialog += '<div class=\"form-row func-tabs-row\">' + r;\n            edit_dialog += indent + indent + indent + '<ul style=\"min-width: 600px; margin-bottom: 20px;\" id=\"func-tabs\"></ul>' + \"\\n\";\n            edit_dialog += indent + indent + \"</div><!--func-tabs-row-->\\n\";\n            edit_dialog += indent + indent + '<div id=\"func-tabs-content\" style=\"min-height: calc(100% - 95px);\">' + \"\\n\";\n\n            // Start first tab\n            edit_dialog += indent + indent + indent + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += indent + indent + indent + indent + '<div class=\"form-row\">' + \"\\n\";\n            tabIndent = \" \".repeat(8);\n\n            // Init tab system\n            let code = \"// Prepare tab system\\n\";\n            code += \"var tabs = RED.tabs.create({\\n\";\n            code += \"    id: 'func-tabs',\\n\";\n            code += \"    onchange: function(tab) {\\n\";\n            code += \"        $('#func-tabs-content').children().hide();\\n\";\n            code += \"        $('#' + tab.id).show();\\n\";\n            code += \"    }\\n\";\n            code += \"});\\n\\n\";\n\n            // Add first tab code\n            code += \"// Add first tab, \" + tab.name + \"\\n\";\n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            firstTabName = tab.name;\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n            initTab = true;\n        }else{\n\n            // Add subsequent tabs \n            let r = edit_dialog.getRightMost('    <div class=\"form-row\"');\n            edit_dialog = edit_dialog.delRightMost('    <div class=\"form-row\"');\n            edit_dialog += \"</div><!--func-tab-tab#-->\\n\"; // close out last tab\n            edit_dialog += \" \".repeat(12) + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += \" \".repeat(16) + '<div class=\"form-row\"' + r;\n\n            // Add additional tab code\n            let code = \"// Add tab, \" + tab.name + \"\\n\";            \n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n        }        \n    }else{\n        if (tabIndent == '') {\n            item = item.replace(/^/gm, indent + indent + indent);\n        }else{\n            item = item.replace(/^/gm, indent);\n        }\n        let c = item.delLeftMost('col-').getLeftMost('\"').getLeftMost(' ');\n        cTotal += Number(c);\n        if (cTotal >= 83) {\n            let m = 5 * nItems;\n            if (m > 0) {\n                item = item.replace(\n                    'class=\"col ',\n                    'style=\"margin-right:-' + m.toString() + 'px;\" class=\"col '\n                );\n            }\n            if (nItems == 3) {\n                let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n                edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n                edit_dialog += '<div class=\"form-row\" style=\"margin-right:10px;\">' + r;\n            }\n            edit_dialog += item + \"\\n\";\n            if (index < msg.edit_dialog.length - 1) {\n                if (bInRGroup) {\n                    edit_dialog += \" \".repeat(4);\n                }\n                edit_dialog += indent + indent + tabIndent + \"</div><!--form-row-->\\n\";\n                edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n                cTotal = 0;\n                nItems = 0;\n            }\n        } else {\n            edit_dialog += item + \"\\n\";\n            nItems++;\n        }\n    }\n});\nif (initTab) { \n    edit_dialog += \" \".repeat(16) + \"</div><!--form-row-->\\n\";\n    edit_dialog += \" \".repeat(12) + \"</div><!--func-tab-tab#-->\\n\";\n    edit_dialog += \" \".repeat(8) + \"</div><!--func-tabs-content-->\";\n\n    // Activate the first tab if present\n    let code = \" \".repeat(12) + 'tabs.activateTab(\"func-tab-' + firstTabName + '\");' + \"\\n\";\n    msg._oneditprepare.push(code);\n}else{\n    edit_dialog += \" \".repeat(8) + \"</div><!--form-row-->\";\n}\nmsg.edit_dialog = edit_dialog;\n\nlet defaults = '';\nmsg.defaults.forEach(function(item, index) {\n    defaults += \"            \" + item;\n    if (index < msg.defaults.length -1) {\n        defaults += \",\\n\";\n    }else{\n        defaults += \"\\n\";\n    }\n});\nmsg.defaults = defaults;\nmsg.oneditprepare = \"\\n\" + msg._oneditprepare.join(\"\\n\");\nmsg.oneditresize = \"\\n\" + msg._oneditresize.join(\"\\n\");\nmsg.oneditsave = \"\\n\" + msg._oneditsave.join(\"\\n\");\nmsg.oneditcancel = \"\\n\" + msg._oneditcancel.join(\"\\n\");\nmsg.defaults = msg.defaults.slice(0, -1);\nvar othercode = \"\";\nfor (var key in msg._othercode) {\n    var value = msg._othercode[key];\n    othercode += value;\n}\nmsg.othercode = \"\\n\" + othercode;\nmsg.runtimecode = \"\\n\" + msg.runtimecode.replace(/^/gm, \"    \".repeat(4));\nmsg.useTemplates = true;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 240,
+        "x": 200,
         "y": 100,
         "wires": [
             []
@@ -2485,14 +2475,14 @@
         "id": "62b4d0382560364d",
         "type": "function",
         "z": "7996feeba4e5f327",
-        "name": "spinner",
+        "name": "spinner_props",
         "func": "msg.field_name = env.get('field_name');\nmsg.field_label = env.get('field_label');\nlet icon = env.get('field_icon');\nif (icon != '') {\n    msg.field_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n} else {\n    msg.field_icon = '';\n}\nif (msg.field_label == '') {\n    msg.field_label_elm = '';\n} else {\n    msg.field_label_elm = '<label for=\"node-input-' + msg.field_name + '\">';\n    msg.field_label_elm += msg.field_icon + msg.field_label + '</label>';\n}\nmsg.field_default = env.get('field_default');\nlet fc = env.get('field_columns');\nif (msg.field_label == '') {\n    fc += ' no-label';\n}\nmsg.field_min = env.get('field_min');\nmsg.field_max = env.get('field_max');\nmsg.field_columns = fc;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 160,
+        "x": 180,
         "y": 40,
         "wires": [
             [
@@ -2504,14 +2494,14 @@
         "id": "07a16db04c64dc2c",
         "type": "template",
         "z": "7996feeba4e5f327",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
-        "format": "handlebars",
+        "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}}\">\n    {{{field_label_elm}}}\n    <input type=\"text\" id=\"node-input-{{field_name}}\">\n    {{{field_has_hidden_type}}}\n</div><!--col-->",
         "output": "str",
-        "x": 160,
+        "x": 170,
         "y": 100,
         "wires": [
             [
@@ -2523,7 +2513,7 @@
         "id": "85eb05fc963311be",
         "type": "function",
         "z": "7996feeba4e5f327",
-        "name": "function 39",
+        "name": "edit_dialog",
         "func": "msg.edit_dialog.push(msg.payload);\nmsg.defaults.push(msg.field_name + ': {value:' + msg.field_default + '}');\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -2542,14 +2532,14 @@
         "id": "5156716df3b6fd1d",
         "type": "template",
         "z": "7996feeba4e5f327",
-        "name": "oneditprepare",
+        "name": "oneditprepare_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
         "template": "            // Prepare spinner {{field_name}}\n            $(\"#node-input-{{field_name}}\").spinner({ min: {{field_min}}, max: {{field_max}} });",
         "output": "str",
-        "x": 440,
+        "x": 470,
         "y": 40,
         "wires": [
             [
@@ -2561,14 +2551,14 @@
         "id": "79f6b4d4f4df2a1a",
         "type": "function",
         "z": "7996feeba4e5f327",
-        "name": "function 40",
+        "name": "oneditprepare",
         "func": "if (!msg.hasOwnProperty('rgroup_name')) {\n    msg._oneditprepare.push(msg.payload);\n} else {\n    msg.rgroup_details.push({\n        field_name: msg.field_name,\n        field_min: msg.field_min,\n        field_max: msg.field_max,\n        field_default: msg.field_default,\n        field_types: ''\n    });\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 430,
+        "x": 440,
         "y": 100,
         "wires": [
             []
@@ -2578,14 +2568,14 @@
         "id": "b0d3a03a3d6ca839",
         "type": "function",
         "z": "8d72584ecbd0d019",
-        "name": "function 33",
+        "name": "configurenode_props",
         "func": "msg.field_name = env.get('field_name');\nmsg.field_label = env.get('field_label');\nlet icon = env.get('field_icon');\nif (icon != '') {\n    msg.field_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n} else {\n    msg.field_icon = '';\n}\nif (msg.field_label == '') {\n    msg.field_label_elm = '';\n} else {\n    msg.field_label_elm = '<label for=\"node-input-' + msg.field_name + '\">';\n    msg.field_label_elm += msg.field_icon + msg.field_label + '</label>';\n}\nmsg.field_default = env.get('field_default');\nmsg.field_placeholder = env.get('field_placeholder');\nmsg.field_columns = env.get('field_columns');\nmsg.confignode_type = env.get('confignode_type');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 170,
+        "x": 200,
         "y": 40,
         "wires": [
             [
@@ -2597,14 +2587,14 @@
         "id": "901ff16324846881",
         "type": "template",
         "z": "8d72584ecbd0d019",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}}\">\n    {{{field_label_elm}}}\n    <input type=\"text\" id=\"node-input-{{field_name}}\" placeholder=\"{{{field_placeholder}}}\">\n</div><!--col-->",
         "output": "str",
-        "x": 160,
+        "x": 170,
         "y": 100,
         "wires": [
             [
@@ -2616,7 +2606,7 @@
         "id": "084f5d08fdf5e058",
         "type": "function",
         "z": "8d72584ecbd0d019",
-        "name": "function 34",
+        "name": "edit_dialog",
         "func": "msg.edit_dialog.push(msg.payload);\nmsg.defaults.push(msg.field_name + ': {value:\"' + msg.field_default + '\", type: \"' + msg.confignode_type + '\"}');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -2633,14 +2623,14 @@
         "id": "86ccecca4fabac7f",
         "type": "function",
         "z": "162e81fc107019c0",
-        "name": "function 32",
+        "name": "end_group_props",
         "func": "msg.edit_dialog.push(\"<!--form-row rgroup-->\");\nmsg.rgroup_details = JSON.stringify(msg.rgroup_details, null, 4);\nmsg.rgroup_details = msg.rgroup_details.replace(/^/gm, \"    \".repeat(5)).trim();\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 170,
+        "x": 190,
         "y": 40,
         "wires": [
             [
@@ -2652,14 +2642,14 @@
         "id": "569fb952e0619afb",
         "type": "template",
         "z": "162e81fc107019c0",
-        "name": "oneditprepare",
+        "name": "oneditprepare_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "            // Prepare editableList for {{rgroup_name}}\n            $(\"#node-input-{{rgroup_name}}-container\").css('height', '{{rgroup_height}}px').editableList({\n                addItem: function (container, i, opt) {\n                    let repeatingFields = {{{rgroup_details}}};\n                    let html = $('#rgroup-{{rgroup_name}}-template').html();\n                    repeatingFields.forEach(function(rf) {\n                        let fniType = \"{{rgroup_name}}\" + rf.field_name + \"Type\" + String(i).padStart(2, '0');\n                        html = html.replaceAll('id=\"node-input-' + rf.field_name + \"Type\" + '\"', 'id=\"node-input-' + fniType + '\"');\n                        let fni = \"{{rgroup_name}}\" + rf.field_name + String(i).padStart(2, '0');\n                        html = html.replaceAll('id=\"node-input-' + rf.field_name + '\"', 'id=\"node-input-' + fni + '\"');\n                        html = html.replaceAll('for=\"node-input-' + rf.field_name + '\"', 'for=\"node-input-' + fni + '\"');\n                        container.html(html);\n                    });\n                    repeatingFields.forEach(function (rf) {\n                        let fni = \"{{rgroup_name}}\" + rf.field_name + String(i).padStart(2, '0');\n                        if (rf.field_types != '') {\n                            let fniType = \"{{rgroup_name}}\" + rf.field_name + \"Type\" + String(i).padStart(2, '0');\n                            $(\"#node-input-\" + fni).typedInput({\n                                type: rf.field_default_type,\n                                types: rf.field_types,\n                                typeField: \"#node-input-\" + fniType\n                            });\n                        }else if(rf.hasOwnProperty('field_min')) {\n                            $(\"#node-input-\" + fni).spinner({ min: rf.field_min, max: rf.field_max });\n                        }\n\n                        // Restore entry\n                        if (Object.keys(opt).length != 0) {\n                            if ($(\"#node-input-\" + fni).attr('type') == 'hidden') {\n                                $(\"#node-input-\" + fni).typedInput('type', opt[rf.field_name + 'Type']);\n                                $(\"#node-input-\" + fni).typedInput('value', opt[rf.field_name]);\n                            }else{\n                                if ($(\"#node-input-\" + fni).attr('type') == 'checkbox') {\n                                    $(\"#node-input-\" + fni).prop('checked', opt[rf.field_name]);\n                                }else{\n                                    $(\"#node-input-\" + fni).val(opt[rf.field_name]);\n                                }\n                            }\n                        }else{\n                            if ($(\"#node-input-\" + fni).attr('type') == 'hidden') {\n                                $(\"#node-input-\" + fni).typedInput('value', rf.field_default);\n                            } else {\n                                if ($(\"#node-input-\" + fni).attr('type') != 'checkbox') {\n                                    $(\"#node-input-\" + fni).val(rf.field_default);\n                                }\n                            }\n                        }\n                    });\n                },\n                // sortItems: function (items) {\n                //    \n                // },\n                sortable: {{rgroup_sortable}},\n                removable: true\n            });\n\n            // Load prior editableList data for {{rgroup_name}}\n            if (this.{{rgroup_name}}) {\n                this.{{rgroup_name}}.forEach(function (m) {\n                    $('#node-input-{{rgroup_name}}-container').editableList('addItem', m);\n                });\n            }\n",
         "output": "str",
-        "x": 180,
+        "x": 210,
         "y": 100,
         "wires": [
             [
@@ -2671,14 +2661,14 @@
         "id": "f73faadc1c4b41c5",
         "type": "function",
         "z": "162e81fc107019c0",
-        "name": "function 36",
+        "name": "oneditprepare",
         "func": "msg._oneditprepare.push(msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 170,
+        "x": 180,
         "y": 160,
         "wires": [
             [
@@ -2690,14 +2680,14 @@
         "id": "f7e683ae5d08c682",
         "type": "function",
         "z": "162e81fc107019c0",
-        "name": "function 37",
+        "name": "oneditsave",
         "func": "msg._oneditsave.push(msg.payload);\ndelete msg.rgroup_name;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 430,
+        "x": 470,
         "y": 100,
         "wires": [
             []
@@ -2707,14 +2697,14 @@
         "id": "c62255b98a430015",
         "type": "template",
         "z": "162e81fc107019c0",
-        "name": "",
+        "name": "oneditsave_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "json",
         "syntax": "mustache",
         "template": "            // Save editableList for {{rgroup_name}}\n            {{rgroup_name}}Items = $(\"#node-input-{{rgroup_name}}-container\").editableList('items');\n            let {{rgroup_name}} = [];\n            {{rgroup_name}}Items.each(function(){\n                let entry = {};\n                $(this).find('input[id]').each(function() {\n                    let id = $(this).attr('id').substring(11 + \"{{rgroup_name}}\".length);\n                    id = id.slice(0, -2);\n                    let v = false;\n                    if ($(this).attr('type') == 'checkbox') {\n                        v = $(this).prop('checked');\n                    }else{\n                        v = $(this).val();\n                    }\n                    entry[id] = v;\n                });\n                {{rgroup_name}}.push(entry);\n            });\n            this.{{rgroup_name}} = {{rgroup_name}};\n",
         "output": "str",
-        "x": 420,
+        "x": 500,
         "y": 40,
         "wires": [
             [
@@ -2726,14 +2716,14 @@
         "id": "c3b7bb6404eb0c25",
         "type": "function",
         "z": "973db1310fdebc19",
-        "name": "function 30",
+        "name": "start_rgroup_props",
         "func": "msg.rgroup_name = env.get('rgroup_name');\nmsg.rgroup_label = env.get('rgroup_label');\nlet icon = env.get('rgroup_icon');\nif (icon != '') {\n    msg.rgroup_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n} else {\n    msg.rgroup_icon = '';\n}\nif (msg.rgroup_label == '') {\n    msg.rgroup_label_elm = '';\n} else {\n    msg.rgroup_label_elm = '<label for=\"node-input-' + msg.rgroup_name + '\">';\n    msg.rgroup_label_elm += msg.rgroup_icon + msg.rgroup_label + '</label>';\n}\n//msg.field_columns = env.get('field_columns');\nmsg.rgroup_height = env.get('rgroup_height');\nmsg.rgroup_sortable = env.get('rgroup_sortable');\nmsg.rgroup_details = [];\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 190,
+        "x": 210,
         "y": 40,
         "wires": [
             [
@@ -2745,14 +2735,14 @@
         "id": "593c4461e9fefc86",
         "type": "template",
         "z": "973db1310fdebc19",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
-        "format": "handlebars",
+        "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"form-row rgroup\" style=\"margin-bottom:0;\">\n    {{{rgroup_label_elm}}}\n</div>\n<div class=\"form-row node-input-{{rgroup_name}}-container-row\">\n    <ol id=\"node-input-{{rgroup_name}}-container\"></ol>\n</div>\n<div id=\"rgroup-{{rgroup_name}}-template\" style=\"display:none\">\n",
         "output": "str",
-        "x": 180,
+        "x": 190,
         "y": 100,
         "wires": [
             [
@@ -2764,7 +2754,7 @@
         "id": "b6607748c85f3e81",
         "type": "function",
         "z": "973db1310fdebc19",
-        "name": "function 35",
+        "name": "edit_dialog",
         "func": "msg.defaults.push(msg.rgroup_name + ':[]');\nmsg.edit_dialog.push(msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -2781,7 +2771,7 @@
         "id": "97041e5e58e0392a",
         "type": "function",
         "z": "7d1e49e9a2f7337a",
-        "name": "function 26",
+        "name": "edit_dialog",
         "func": "let tab = JSON.stringify({\n    type: 'tab_definition',\n    label: env.get('tab_label'),\n    icon: env.get('tab_icon'),\n    name: env.get('tab_name')\n});\nmsg.edit_dialog.push(tab);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -2798,14 +2788,14 @@
         "id": "f3308a3fdb36ac02",
         "type": "function",
         "z": "3aaeb350dea9a1f1",
-        "name": "function 27",
+        "name": "buttongroup_props",
         "func": "msg.field_name = env.get('field_name');\nmsg.field_default = env.get('field_default');\nmsg.field_values = env.get('field_values');\nlet fv = msg.field_values.split(',');\nlet bg = '';\nfv.forEach(function (v) {\n    v = v.split(':');\n    bg += '<button type=\"button\" class=\"red-ui-button toggle ' + msg.field_name + '\" value=\"' + v[1] + '\">' + v[0] + '</button>';\n});\nmsg.button_group = bg;\nmsg.field_columns = env.get('field_columns');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 170,
+        "x": 190,
         "y": 40,
         "wires": [
             [
@@ -2817,7 +2807,7 @@
         "id": "647aa85626d8ec6c",
         "type": "function",
         "z": "3aaeb350dea9a1f1",
-        "name": "function 28",
+        "name": "edit_dialog",
         "func": "msg.edit_dialog.push(msg.payload);\nmsg.defaults.push(msg.field_name + ': {value:\"' + msg.field_default+ '\"}');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -2836,14 +2826,14 @@
         "id": "804acd8df99594f0",
         "type": "template",
         "z": "3aaeb350dea9a1f1",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}}\">\n    <span class=\"button-group\">\n        {{{button_group}}}\n    </span>\n    <input type=\"hidden\" id=\"node-input-{{field_name}}\">\n</div><!--col-->",
         "output": "str",
-        "x": 160,
+        "x": 170,
         "y": 100,
         "wires": [
             [
@@ -2855,14 +2845,14 @@
         "id": "0db6dff4a160e916",
         "type": "template",
         "z": "3aaeb350dea9a1f1",
-        "name": "oneditprepare",
+        "name": "oneditprepare_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "            // Prepare button group {{field_name}}\n            $(\".{{field_name}}\").on(\"click\", function () {\n                $(\".{{field_name}}\").removeClass(\"selected\");\n                $(this).addClass(\"selected\");\n                $('#node-input-{{field_name}}').val($(this).val());\n            });\n            $('button.{{field_name}}[value=\"' + $('#node-input-{{field_name}}').val() + '\"]').addClass(\"selected\");\n",
         "output": "str",
-        "x": 400,
+        "x": 470,
         "y": 40,
         "wires": [
             [
@@ -2874,14 +2864,14 @@
         "id": "d8c795cf2bf3ed56",
         "type": "function",
         "z": "3aaeb350dea9a1f1",
-        "name": "function 29",
+        "name": "oneditprepare",
         "func": "msg._oneditprepare.push(msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 390,
+        "x": 440,
         "y": 100,
         "wires": [
             []
@@ -2891,14 +2881,14 @@
         "id": "5fd3369e032c68b0",
         "type": "function",
         "z": "c70964ba34544694",
-        "name": "function 21",
+        "name": "button_props",
         "func": "msg.field_name = env.get('field_name');\nmsg.field_label = env.get('field_label');\nlet icon = env.get('field_icon');\nif (icon != '') {\n    msg.field_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n} else {\n    msg.field_icon = '';\n}\nmsg.field_label_elm = msg.field_icon + msg.field_label;\nmsg.button_size = env.get('button_size');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 170,
+        "x": 180,
         "y": 40,
         "wires": [
             [
@@ -2910,14 +2900,14 @@
         "id": "09a5b20f490d7474",
         "type": "template",
         "z": "c70964ba34544694",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}}\">\n    <button id=\"btn_{{field_name}}\" type=\"button\" class=\"{{{button_size}}}\">{{{field_label_elm}}}</button>\n</div>",
         "output": "str",
-        "x": 160,
+        "x": 170,
         "y": 100,
         "wires": [
             [
@@ -2929,7 +2919,7 @@
         "id": "41f4b3c1077a06f2",
         "type": "function",
         "z": "c70964ba34544694",
-        "name": "function 22",
+        "name": "edit_dialog",
         "func": "msg.edit_dialog.push(msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -2946,7 +2936,7 @@
         "id": "b39ca36c12467718",
         "type": "function",
         "z": "60de16a0fefb7ace",
-        "name": "function 16",
+        "name": "editor_props",
         "func": "msg.field_columns = env.get('field_columns');\nmsg.field_name = env.get('field_name');\nmsg.field_default = env.get('field_default');\nmsg.editor_expand = env.get('editor_expand');\nmsg.editor_formatting = env.get('editor_formatting');\nmsg.field_label = env.get('field_label');\nmsg.editor_format_default = env.get('editor_format_default');\nif (msg.editor_format_default == '') {\n    msg.editor_format_default = 'text';\n}\nlet expandOffset = '';\nif (msg.editor_formatting == '' && msg.field_label == '') {\n    expandOffset = 'style=\"margin-top:-3px;\"';\n}\nif (msg.editor_expand) {\n    msg.editor_expand = '<button id=\"node-function-expand-' + msg.field_name + '\" class=\"red-ui-button red-ui-button-small\" ' + expandOffset + '><i class=\"fa fa-expand\"></i></button>' + \"\\n\";\n}else{\n    msg.editor_expand = '';\n}\nlet selectList = '';\nif (msg.editor_formatting != '') {\n    let formattingList = msg.editor_formatting.replaceAll(' ', '').split(',');\n    selectList = '<span data-i18n=\"node-red:template.label.format\">Syntax Highlight</span>:' + \"\\n\";\n    selectList += '<select id=\"node-input-format_' + msg.field_name + '\" style=\"width:110px; font-size: 10px !important;  height: 24px; padding:0;\">' + \"\\n\";\n    formattingList.forEach(function(fl) {\n        fl = fl.split(':');\n        selectList += \" \".repeat(4) + '<option value=\"' + fl[1] + '\">' + fl[0] + \"</option>\\n\";\n    });\n    selectList += \"</select>\\n\";\n}\nselectList = selectList.replace(/^/gm, \" \".repeat(8));\nmsg.editor_options = '';\nif (selectList != '' || msg.editor_expand != '') {\n    msg.editor_options += \"\\n\" + \" \".repeat(4) + '<div style=\"position:absolute;right:0;display:inline-block;text-align:right;font-size: 0.8em;z-index:100;\">' + \"\\n\";\n    msg.editor_options += selectList;\n    msg.editor_options += msg.editor_expand;\n    msg.editor_options += \" \".repeat(4) + \"</div>\";\n}\nlet icon = env.get('field_icon');\nif (icon != '') {\n    msg.field_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n} else {\n    msg.field_icon = '';\n}\nif (msg.field_label == '') {\n    msg.field_label_elm = '';\n} else {\n    msg.field_label_elm = '<label for=\"node-input-' + msg.field_name + '\">';\n    msg.field_label_elm += msg.field_icon + msg.field_label + '</label>';\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -2965,14 +2955,14 @@
         "id": "304b11e03551ef93",
         "type": "template",
         "z": "60de16a0fefb7ace",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}}\">\n    {{{field_label_elm}}}{{{editor_options}}}\n    <div style=\"height: 250px; min-height:150px;\" class=\"node-text-editor\" id=\"node-input-{{field_name}}-editor\"></div>\n</div>",
         "output": "str",
-        "x": 200,
+        "x": 210,
         "y": 80,
         "wires": [
             [
@@ -2984,7 +2974,7 @@
         "id": "dfc2e6d83eaa08f0",
         "type": "function",
         "z": "60de16a0fefb7ace",
-        "name": "function 17",
+        "name": "edit_dialog",
         "func": "msg.defaults.push(msg.field_name + ': {value:\"' +  msg.field_default.replace('\"', '\\\"') + '\"}');\nmsg.defaults.push(msg.field_name + '_format: {value:\"' + msg.editor_format_default + '\"}');\nmsg.edit_dialog.push(msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -3003,14 +2993,14 @@
         "id": "433c2ca4801d1b7f",
         "type": "template",
         "z": "60de16a0fefb7ace",
-        "name": "oneditprepare",
+        "name": "oneditprepare_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "            // Prepare code editor {{field_name}}\n            this.editor_{{field_name}} = RED.editor.createEditor({\n                id: 'node-input-{{field_name}}-editor',\n                mode: 'ace/mode/text',\n                value: this.{{field_name}} || \"{{{field_default}}}\"\n            });\n            $('#node-input-{{field_name}}-editor').parent().css('position', 'relative');\n            $(\"#node-function-expand-{{field_name}}\").on(\n                \"click\", \n                expandButtonClickHandler(\n                    this.editor_{{field_name}},\n                    '{{field_name}}',\n                    '{{{field_label_elm}}}'\n                )\n            );\n            RED.popover.tooltip($(\"#node-function-expand-{{field_name}}\"), RED._(\"node-red:common.label.expand\"));\n            let editor_{{field_name}} = this.editor_{{field_name}};\n            $(\"#node-input-format_{{field_name}}\").on(\"change\", function () {\n                var mod = \"ace/mode/\" + $(\"#node-input-format_{{field_name}}\").val();\n                editor_{{field_name}}.getSession().setMode({\n                    path: mod,\n                    v: Date.now()\n                });\n            });\n            $('#node-input-format_{{field_name}}').val(this.{{field_name}}_format || '{{editor_format_default}}').trigger('change');\n",
         "output": "str",
-        "x": 460,
+        "x": 490,
         "y": 40,
         "wires": [
             [
@@ -3022,14 +3012,14 @@
         "id": "7a21bd543c1073c8",
         "type": "function",
         "z": "60de16a0fefb7ace",
-        "name": "function 18",
+        "name": "oneditprepare",
         "func": "msg._oneditprepare.push(msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 450,
+        "x": 460,
         "y": 80,
         "wires": [
             [
@@ -3041,14 +3031,14 @@
         "id": "312a31b33615964e",
         "type": "template",
         "z": "60de16a0fefb7ace",
-        "name": "oneditsave",
+        "name": "oneditsave_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "            // Save code editor {{field_name}}\n            this.{{field_name}}_format = $('#node-input-format_{{field_name}}').val();\n            this.{{field_name}} = this.editor_{{field_name}}.getValue();\n            this.editor_{{field_name}}.destroy();\n            delete this.editor_{{field_name}};\n",
         "output": "str",
-        "x": 450,
+        "x": 480,
         "y": 140,
         "wires": [
             [
@@ -3060,7 +3050,7 @@
         "id": "7ecf6f5b801255fe",
         "type": "function",
         "z": "60de16a0fefb7ace",
-        "name": "function 19",
+        "name": "oneditsave",
         "func": "msg._oneditsave.push(msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -3079,14 +3069,14 @@
         "id": "35eacbc0f8e14635",
         "type": "template",
         "z": "60de16a0fefb7ace",
-        "name": "oneditcancel",
+        "name": "oneditcancel_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "            // Cancel code editor {{field_name}}\n            this.editor_{{field_name}}.destroy();\n            delete this.editor_{{field_name}};\n",
         "output": "str",
-        "x": 450,
+        "x": 480,
         "y": 240,
         "wires": [
             [
@@ -3117,14 +3107,14 @@
         "id": "7e05fb4fc292719b",
         "type": "template",
         "z": "60de16a0fefb7ace",
-        "name": "othercode",
+        "name": "othercode_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "\n/**\n * Expand behavior for code editor \n */\nfunction expandButtonClickHandler(editor, fieldName, fieldLabelElm) {\n    $('#node-function-expand-' + fieldName).click(function() {\n        setTimeout(function() {\n            $('ul.red-ui-tray-breadcrumbs li:nth-child(2)').html(fieldLabelElm);\n        }, 500);\n    });\n    return function (e) {\n        e.preventDefault();\n        var value = editor.getValue();\n        editor.saveView(`inside function-expandButtonClickHandler ${editor.__stateId}`);\n        RED.editor.editJavaScript(\n            {\n                value: value,\n                width: \"Infinity\",\n                stateId: editor.__stateId,\n                mode: \"ace/mode/\" + $('#node-input-format_' + fieldName).val(),\n                focus: true,\n                cancel: function () {\n                    setTimeout(function () {\n                        editor.focus();\n                    }, 250);\n                },\n                complete: function (v, cursor) {\n                    editor.setValue(v, -1);\n                    setTimeout(function () {\n                        editor.restoreView();\n                        editor.focus();\n                    }, 250);\n                }\n            }\n        );\n    }\n}\n",
         "output": "str",
-        "x": 450,
+        "x": 480,
         "y": 340,
         "wires": [
             [
@@ -3146,23 +3136,21 @@
         "x": 440,
         "y": 380,
         "wires": [
-            [
-                "d7e901b6cb4bab1b"
-            ]
+            []
         ]
     },
     {
         "id": "3a8bd58bf294fc23",
         "type": "function",
         "z": "5904ee94d99998b2",
-        "name": "function 14",
+        "name": "textarea_props",
         "func": "msg.field_name = env.get('field_name');\nmsg.field_label = env.get('field_label');\nlet icon = env.get('field_icon');\nif (icon != '') {\n    msg.field_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n} else {\n    msg.field_icon = '';\n}\nif (msg.field_label == '') {\n    msg.field_label_elm = '';\n} else {\n    msg.field_label_elm = '<label for=\"node-input-' + msg.field_name + '\">';\n    msg.field_label_elm += msg.field_icon + msg.field_label + '</label>';\n}\nmsg.field_placeholder = env.get('field_placeholder');\nmsg.field_required = env.get('field_required');\nmsg.field_default = env.get('field_default');\nmsg.field_columns = env.get('field_columns');\nmsg.textarea_rows = env.get('textarea_rows');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 170,
+        "x": 180,
         "y": 40,
         "wires": [
             [
@@ -3174,14 +3162,14 @@
         "id": "accd61ce5b3e8df8",
         "type": "template",
         "z": "5904ee94d99998b2",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}} txtarea\">\n    {{{field_label_elm}}}\n    <textarea id=\"node-input-{{field_name}}\" name=\"node-input-{{field_name}}\" rows=\"{{textarea_rows}}\" placeholder=\"{{{field_placeholder}}}\">\n        {{{field_default}}}\n    </textarea>\n</div><!--col-->",
         "output": "str",
-        "x": 160,
+        "x": 170,
         "y": 100,
         "wires": [
             [
@@ -3193,7 +3181,7 @@
         "id": "56c0f86d94e65e2f",
         "type": "function",
         "z": "5904ee94d99998b2",
-        "name": "function 15",
+        "name": "edit_dialog",
         "func": "msg.edit_dialog.push(msg.payload);\nlet theDefault = msg.field_default;\nlet required = '';\nif (msg.field_required) {\n    required = ', required:true';\n}\nmsg.defaults.push(msg.field_name + ': {value:\"' + theDefault + '\"' + required + '}');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -3210,7 +3198,7 @@
         "id": "4f14c5db823380c0",
         "type": "function",
         "z": "a9570576c6d79609",
-        "name": "function 10",
+        "name": "option_props",
         "func": "msg.field_name = env.get('field_name');\nmsg.field_label = env.get('field_label');\nmsg.radio_group = env.get('radio_group');\nif (env.get('field_default') == 'checked') {\n    msg.checked = 'checked';\n    msg.field_default = true;\n} else {\n    msg.checked = '';\n    msg.field_default = false;\n}\nmsg.field_columns = env.get('field_columns');\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
@@ -3229,14 +3217,14 @@
         "id": "4dd9f408962124c5",
         "type": "template",
         "z": "a9570576c6d79609",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}} reg-lbl\">\n    <label for=\"{{radio_group}}-{{field_name}}\" style=\"width:18px;\">\n    <input type=\"radio\" id=\"{{radio_group}}-{{field_name}}\" value=\"{{field_name}}\" name=\"{{radio_group}}\" style=\"margin-top:-3px;\" {{checked}}>{{{field_label}}}</label>\n</div><!--col-->",
         "output": "str",
-        "x": 160,
+        "x": 170,
         "y": 100,
         "wires": [
             [
@@ -3248,7 +3236,7 @@
         "id": "77cc34048bcc7da4",
         "type": "function",
         "z": "a9570576c6d79609",
-        "name": "function 11",
+        "name": "edit_dialog",
         "func": "let radio_group = '<input type=\"hidden\" id=\"node-input-' + msg.radio_group + '\">' + \"\\n\";\nlet pre = '';\nif (msg.edit_dialog.join(\"\\n\").indexOf(radio_group) == -1) {\n    pre = radio_group;\n}\nmsg.edit_dialog.push(pre + msg.payload);\nif (msg.defaults.indexOf(msg.radio_group + ': {value:\"') == -1) {\n    if (msg.field_default) {\n        msg.defaults.push(msg.radio_group + ': {value:\"' + msg.field_name + '\"}');\n    }\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -3267,14 +3255,14 @@
         "id": "8b96d7bb4892c0d6",
         "type": "template",
         "z": "a9570576c6d79609",
-        "name": "oneditprepare",
+        "name": "oneditprepare_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "            // Prepare radio group {{radio_group}}\n            let v = $('#node-input-{{radio_group}}').val();\n            $('input[name=\"{{radio_group}}\"]').attr('checked', false);\n            $('#{{radio_group}}-' + v).attr('checked', true);\n",
         "output": "str",
-        "x": 420,
+        "x": 450,
         "y": 40,
         "wires": [
             [
@@ -3286,14 +3274,14 @@
         "id": "742418ba92cd639a",
         "type": "function",
         "z": "a9570576c6d79609",
-        "name": "function 12",
+        "name": "oneditprepare",
         "func": "if (msg._oneditprepare.indexOf(msg.payload) == -1) {\n    msg._oneditprepare.push(msg.payload);\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 410,
+        "x": 420,
         "y": 100,
         "wires": [
             [
@@ -3305,14 +3293,14 @@
         "id": "9960c6b71ddcbcdc",
         "type": "template",
         "z": "a9570576c6d79609",
-        "name": "oneditsave",
+        "name": "oneditsave_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "            // Save radio group {{radio_group}}\n            let v = $('input[name=\"{{radio_group}}\"]:checked').val();\n            $('#node-input-{{radio_group}}').val(v);\n",
         "output": "str",
-        "x": 410,
+        "x": 440,
         "y": 160,
         "wires": [
             [
@@ -3324,7 +3312,7 @@
         "id": "f3c884a018b98b9c",
         "type": "function",
         "z": "a9570576c6d79609",
-        "name": "function 13",
+        "name": "oneditsave",
         "func": "if (msg._oneditsave.indexOf(msg.payload) == -1) {\n    msg._oneditsave.push(msg.payload);\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -3341,14 +3329,14 @@
         "id": "b08129ad78aa131f",
         "type": "function",
         "z": "da6577bfc4038dbb",
-        "name": "function 8",
+        "name": "checkbox_props",
         "func": "msg.field_name = env.get('field_name');\nmsg.field_label = env.get('field_label');\nif (env.get('field_default') == 'checked') {\n    msg.checked = 'checked';\n    msg.field_default = true;\n}else{\n    msg.checked = '';\n    msg.field_default = false;\n}\nmsg.field_columns = env.get('field_columns');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 180,
+        "x": 210,
         "y": 40,
         "wires": [
             [
@@ -3360,14 +3348,14 @@
         "id": "005ee05cba1991fe",
         "type": "template",
         "z": "da6577bfc4038dbb",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}} reg-lbl\">\n    <label for=\"node-input-{{field_name}}\" style=\"width:18px;\">\n    <input type=\"checkbox\" id=\"node-input-{{field_name}}\" name=\"node-input-{{field_name}}\" style=\"margin-top:-3px;\" {{checked}}>{{{field_label}}}</label>\n</div><!--col-->",
         "output": "str",
-        "x": 180,
+        "x": 190,
         "y": 100,
         "wires": [
             [
@@ -3379,14 +3367,14 @@
         "id": "d46ba26faedba5a9",
         "type": "function",
         "z": "da6577bfc4038dbb",
-        "name": "function 9",
+        "name": "edit_dialog",
         "func": "msg.edit_dialog.push(msg.payload);\nif (msg.field_default == 'checked') {\n    msg.field_default = true;\n}else{\n    msg.field_default = false;\n}\nmsg.defaults.push(msg.field_name + ': {value:' + msg.field_default.toString() + '}');\nif (msg.hasOwnProperty('rgroup_name')) {\n    msg.rgroup_details.push({\n        field_name: msg.field_name,\n        field_default_type: '',\n        field_types: ''\n    });\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 180,
+        "x": 190,
         "y": 160,
         "wires": [
             []
@@ -3396,14 +3384,14 @@
         "id": "a898132ca0292c19",
         "type": "function",
         "z": "b30b4cf6837f20a7",
-        "name": "function 23",
+        "name": "selectbox_props",
         "func": "msg.field_name = env.get('field_name');\nmsg.field_label = env.get('field_label');\nlet icon = env.get('field_icon');\nif (icon != '') {\n    msg.field_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n} else {\n    msg.field_icon = '';\n}\nif (msg.field_label == '') {\n    msg.field_label_elm = '';\n} else {\n    msg.field_label_elm = '<label for=\"node-input-' + msg.field_name + '\">';\n    msg.field_label_elm += msg.field_icon + msg.field_label + '</label>';\n}\nmsg.field_default = env.get('field_default');\nmsg.selectbox_multiple = env.get('selectbox_multiple');\nif (msg.selectbox_multiple) {\n    msg.selectbox_multiple = 'multiple: \"true\",' + \"\\n\";\n}else{\n    msg.selectbox_multiple = '';\n}\nmsg.field_values = env.get('field_values');\nlet fv = msg.field_values.split(',');\nlet o = '';\nfv.forEach(function(v, i) {\n    v = v.split(':');\n    o += '{ \"value\":\"' + v[1] + '\", \"label\": \"' + v[0].trim().replace('\"', '\\\"') + '\"}';\n    if (i < fv.length-1) {\n        o += \",\\n\";\n    }\n});\no = o.replace(/^/gm, \" \".repeat(28));\nmsg.field_values = o;\nmsg.field_columns = env.get('field_columns');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 170,
+        "x": 190,
         "y": 40,
         "wires": [
             [
@@ -3415,14 +3403,14 @@
         "id": "d0c143eac43904cd",
         "type": "template",
         "z": "b30b4cf6837f20a7",
-        "name": "",
+        "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
-        "format": "handlebars",
+        "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}}\">\n    {{{field_label_elm}}}\n    <input type=\"text\" id=\"node-input-{{field_name}}\">\n</div><!--col-->",
         "output": "str",
-        "x": 160,
+        "x": 170,
         "y": 100,
         "wires": [
             [
@@ -3434,7 +3422,7 @@
         "id": "1c0a4ee1081ab0ae",
         "type": "function",
         "z": "b30b4cf6837f20a7",
-        "name": "function 24",
+        "name": "edit_dialog",
         "func": "msg.edit_dialog.push(msg.payload);\nmsg.defaults.push(msg.field_name + ': {value:\"' + msg.field_default.replaceAll('\"', '\\\"') + '\"}');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -3453,14 +3441,14 @@
         "id": "436c6476640d73e2",
         "type": "template",
         "z": "b30b4cf6837f20a7",
-        "name": "oneditprepare",
+        "name": "oneditprepare_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "            // Prepare selectbox {{field_name}}\n            $(\"#node-input-{{field_name}}\").typedInput({\n                types: [\n                    {\n                        value: \"{{field_name}}\",\n                        {{{selectbox_multiple}}}\n                        options: [\n{{{field_values}}}\n                        ]\n                    }\n                ]\n            });\n",
         "output": "str",
-        "x": 420,
+        "x": 450,
         "y": 40,
         "wires": [
             [
@@ -3472,14 +3460,14 @@
         "id": "3d97bfe487ea399d",
         "type": "function",
         "z": "b30b4cf6837f20a7",
-        "name": "function 25",
+        "name": "oneditprepare",
         "func": "if (!msg.hasOwnProperty('rgroup_name')) {\n    msg._oneditprepare.push(msg.payload);\n} else {\n    msg.rgroup_details.push({\n        field_name: msg.field_name,\n        field_types: [{\n                value: msg.field_name,\n                multiple: (msg.selectbox_multiple != ''),\n                options: JSON.parse('[' + msg.field_values + ']')\n        }],\n        field_default_type: null,\n        field_default: msg.field_default\n    });\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 410,
+        "x": 420,
         "y": 100,
         "wires": [
             []
@@ -3492,7 +3480,7 @@
         "name": "edit_dialog",
         "field": "payload",
         "fieldType": "msg",
-        "format": "handlebars",
+        "format": "html",
         "syntax": "mustache",
         "template": "<div class=\"{{field_columns}} reg-lbl\">\n    <label class=\"full-lbl\">\n        {{{label_icon}}}<span>{{{label_caption}}}</span>\n    </label>\n</div><!--col-->",
         "output": "str",
@@ -3508,14 +3496,14 @@
         "id": "b15245fe8570aaf7",
         "type": "function",
         "z": "d0a39641213352a7",
-        "name": "function 6",
+        "name": "label_props",
         "func": "msg.label_caption = env.get('label_caption');\nlet icon = env.get('label_icon');\nif (icon != '') {\n    msg.label_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n}else{\n    msg.label_icon = '';\n} \nmsg.field_columns = env.get('field_columns');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 180,
+        "x": 190,
         "y": 40,
         "wires": [
             [
@@ -3527,14 +3515,14 @@
         "id": "84054fdfc2c499b0",
         "type": "function",
         "z": "d0a39641213352a7",
-        "name": "function 7",
+        "name": "edit_dialog",
         "func": "msg.edit_dialog.push(msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 180,
+        "x": 190,
         "y": 160,
         "wires": [
             []
@@ -3563,14 +3551,14 @@
         "id": "73a3b0f6af6b0aeb",
         "type": "function",
         "z": "7062e6f741533eb2",
-        "name": "function 2",
+        "name": "field_props",
         "func": "msg.field_name = env.get('field_name');\nmsg.field_label = env.get('field_label');\nlet icon = env.get('field_icon');\nif (icon != '') {\n    msg.field_icon = '<i class=\"fa fa-' + icon + '\"></i> ';\n}else{\n    msg.field_icon = '';\n}\nif (msg.field_label == '') {\n    msg.field_label_elm = '';\n}else{\n    msg.field_label_elm = '<label for=\"node-input-' + msg.field_name + '\">';\n    msg.field_label_elm += msg.field_icon + msg.field_label + '</label>';\n}\nmsg.field_placeholder = env.get('field_placeholder');\nmsg.field_required = env.get('field_required');\nmsg.field_default = env.get('field_default');\n\nmsg.field_type_string = env.get('field_type_string');\nmsg.field_type_number = env.get('field_type_number');\nmsg.field_type_boolean = env.get('field_type_boolean');\nmsg.field_type_msg = env.get('field_type_msg');\nmsg.field_type_flow = env.get('field_type_flow');\nmsg.field_type_global = env.get('field_type_global');\nmsg.field_type_json = env.get('field_type_json');\nmsg.field_type_additional = env.get('field_type_additional');\nmsg.field_default_type = env.get('field_default_type');\nmsg.field_types = [];\nif (msg.field_type_string) {\n    msg.field_types.push('str');\n}\nif (msg.field_type_number) {\n    msg.field_types.push('num');\n}\nif (msg.field_type_boolean) {\n    msg.field_types.push('bool');\n}\nif (msg.field_type_msg) {\n    msg.field_types.push('msg');\n}\nif (msg.field_type_flow) {\n    msg.field_types.push('flow');\n}\nif (msg.field_type_global) {\n    msg.field_types.push('global');\n}\nif (msg.field_type_json) {\n    msg.field_types.push('json');\n}\nif (msg.field_type_additional) {\n    msg.field_additional_types = env.get('field_additional_types');\n    msg.field_types = msg.field_types.concat(msg.field_additional_types);\n}\nmsg.field_has_hidden_type = '';\nif (msg.field_types.length > 0) {\n    if (msg.field_default_type == '') {\n        msg.field_default_type = msg.field_types[0];\n    }\n    msg.field_has_hidden_type = '<input type=\"hidden\" id=\"node-input-' + env.get('field_name') + 'Type\"';\n    msg.field_has_hidden_type += 'value=\"' + msg.field_default_type + '\">';\n    msg.field_types_s = JSON.stringify(msg.field_types);\n}\nlet fc = env.get('field_columns');\nif (msg.field_label == '') {\n    fc += ' no-label';\n}\nmsg.field_columns = fc;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 140,
+        "x": 150,
         "y": 40,
         "wires": [
             [
@@ -3582,14 +3570,14 @@
         "id": "a0b8b4c7a26b07dd",
         "type": "function",
         "z": "7062e6f741533eb2",
-        "name": "function 3",
+        "name": "edit_dialog",
         "func": "msg.edit_dialog.push(msg.payload);\nlet theDefault = msg.field_default;\nif (msg.field_default_type != 'bool' && msg.field_default_type != 'num') {\n    theDefault = '\"' + theDefault + '\"';\n}\nlet required = '';\nif (msg.field_required) {\n    required = ', required:true';\n}\nmsg.defaults.push(msg.field_name + ': {value:' + theDefault + required + '}');\nif (msg.field_types.length > 0) {\n    msg.defaults.push(msg.field_name + 'Type: {value:\"' + msg.field_default_type + '\"}');\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 140,
+        "x": 150,
         "y": 160,
         "wires": [
             [
@@ -3601,14 +3589,14 @@
         "id": "3c2eac4c542cd18e",
         "type": "template",
         "z": "7062e6f741533eb2",
-        "name": "oneditprepare",
+        "name": "oneditprepare_template",
         "field": "payload",
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
         "template": "            // Prepare field {{field_name}}\n            $(\"#node-input-{{field_name}}\").typedInput({\n                type: \"{{{field_default_type}}}\",\n                types: {{{field_types_s}}},\n                typeField: \"#node-input-{{field_name}}Type\"\n            });\n",
         "output": "str",
-        "x": 460,
+        "x": 490,
         "y": 40,
         "wires": [
             [
@@ -3649,14 +3637,14 @@
         "id": "67eed6e284e28123",
         "type": "function",
         "z": "7062e6f741533eb2",
-        "name": "function 4",
+        "name": "oneditprepare",
         "func": "if (!msg.hasOwnProperty('rgroup_name')) {\n    msg._oneditprepare.push(msg.payload);\n}else{\n    msg.rgroup_details.push({\n        field_name: msg.field_name,\n        field_default_type: msg.field_default_type,\n        field_types: msg.field_types,\n        field_default: msg.field_default\n    });\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 440,
+        "x": 460,
         "y": 100,
         "wires": [
             []
@@ -3666,7 +3654,7 @@
         "id": "eda19645927d3dda",
         "type": "function",
         "z": "7062e6f741533eb2",
-        "name": "function 38",
+        "name": "field_group",
         "func": "if (msg.hasOwnProperty('rgroup_name')) {\n    msg.rgroup_details.push({\n        field_name: msg.field_name,\n        field_default_type: '',\n        field_types: '',\n        field_default: msg.field_default\n    });\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -3914,14 +3902,14 @@
         "id": "3d44470abb3be3af",
         "type": "function",
         "z": "65d5e45697fed99a",
-        "name": "compose defaults, othercode",
+        "name": "compose_code",
         "func": "if (msg.hasOwnProperty('useTemplates')) return msg;\nmsg._oneditprepare.push(msg.payload);\n\nString.prototype.delRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getRightMost = function (sFind) {\n    for (var i = this.length; i >= 0; i = i - 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n        }\n    }\n    return this;\n};\nString.prototype.delLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(f + sFind.length, f + sFind.length + this.length);\n            break;\n        }\n    }\n    return this;\n};\nString.prototype.getLeftMost = function (sFind) {\n    for (var i = 0; i < this.length; i = i + 1) {\n        var f = this.indexOf(sFind, i);\n        if (f != -1) {\n            return this.substring(0, f);\n            break;\n        }\n    }\n    return this;\n};\nvar indent = \" \".repeat(4);\nvar tabIndent = \"\";\nvar edit_dialog = \" \".repeat(8) + '<div class=\"form-row\">' + \"\\n\";\nvar cTotal = 0;\nvar nItems = 0;\nvar initTab = false;\nvar firstTabName = '';\nvar bInRGroup = false;    \nmsg.edit_dialog.forEach(function(item, index) {\n    if (item.indexOf('\"type\":\"tab_definition\"') == -1 && item.indexOf('form-row rgroup') == -1) {\n        item = item.replace(/^/gm, tabIndent);\n        item = item.replace(/^/gm, tabIndent);\n        if (bInRGroup) {\n            item = item.replace(/^/gm, \" \".repeat(4));\n        }\n    }\n    if (item.indexOf('<div class=\"form-row rgroup\"') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        item += \" \".repeat(4) + '<div class=\"form-row\">' + \"\\n\";\n        item = item.replace(/^/gm, \" \".repeat(8) + tabIndent).trimEnd() + \"\\n\";\n        bInRGroup = true;\n        edit_dialog += item;\n        return;\n    }\n    if (item.indexOf('<!--form-row rgroup-->') > -1) {\n        edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">').trimEnd() + \"\\n\";\n        edit_dialog += \" \".repeat(8) + tabIndent + \"</div><!--form-row rgroup-...-template-->\\n\";\n        if (index < msg.edit_dialog.length - 1) {\n            edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n        }\n        bInRGroup = false;\n        return;\n    }\n    if (item.indexOf('\"type\":\"tab_definition\"') > -1) {\n        let tab = JSON.parse(item);\n        if (initTab == false) {\n            \n            // Inject the tab row\n            let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n            edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n            edit_dialog += '<div class=\"form-row func-tabs-row\">' + r;\n            edit_dialog += indent + indent + indent + '<ul style=\"min-width: 600px; margin-bottom: 20px;\" id=\"func-tabs\"></ul>' + \"\\n\";\n            edit_dialog += indent + indent + \"</div><!--func-tabs-row-->\\n\";\n            edit_dialog += indent + indent + '<div id=\"func-tabs-content\" style=\"min-height: calc(100% - 95px);\">' + \"\\n\";\n\n            // Start first tab\n            edit_dialog += indent + indent + indent + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += indent + indent + indent + indent + '<div class=\"form-row\">' + \"\\n\";\n            tabIndent = \" \".repeat(8);\n\n            // Init tab system\n            let code = \"// Prepare tab system\\n\";\n            code += \"var tabs = RED.tabs.create({\\n\";\n            code += \"    id: 'func-tabs',\\n\";\n            code += \"    onchange: function(tab) {\\n\";\n            code += \"        $('#func-tabs-content').children().hide();\\n\";\n            code += \"        $('#' + tab.id).show();\\n\";\n            code += \"    }\\n\";\n            code += \"});\\n\\n\";\n\n            // Add first tab code\n            code += \"// Add first tab, \" + tab.name + \"\\n\";\n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            firstTabName = tab.name;\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n            initTab = true;\n        }else{\n\n            // Add subsequent tabs \n            let r = edit_dialog.getRightMost('    <div class=\"form-row\"');\n            edit_dialog = edit_dialog.delRightMost('    <div class=\"form-row\"');\n            edit_dialog += \"</div><!--func-tab-tab#-->\\n\"; // close out last tab\n            edit_dialog += \" \".repeat(12) + '<div id=\"func-tab-' + tab.name + '\" style=\"display:none\">' + \"\\n\";\n            edit_dialog += \" \".repeat(16) + '<div class=\"form-row\"' + r;\n\n            // Add additional tab code\n            let code = \"// Add tab, \" + tab.name + \"\\n\";            \n            code += \"tabs.addTab({\\n\";\n            code += \"    id: 'func-tab-\" + tab.name + \"',\\n\";\n            code += \"    iconClass: 'fa fa-\" + tab.icon + \"',\\n\";\n            code += \"    label: '\" + tab.label + \"'\\n\";\n            code += \"});\\n\\n\";\n            code = code.replace(/^/gm, \" \".repeat(12));\n            msg._oneditprepare.push(code);\n        }        \n    }else{\n        if (tabIndent == '') {\n            item = item.replace(/^/gm, indent + indent + indent);\n        }else{\n            item = item.replace(/^/gm, indent);\n        }\n        let c = item.delLeftMost('col-').getLeftMost('\"').getLeftMost(' ');\n        cTotal += Number(c);\n        if (cTotal >= 83) {\n            let m = 5 * nItems;\n            if (m > 0) {\n                item = item.replace(\n                    'class=\"col ',\n                    'style=\"margin-right:-' + m.toString() + 'px;\" class=\"col '\n                );\n            }\n            if (nItems == 3) {\n                let r = edit_dialog.getRightMost('<div class=\"form-row\">');\n                edit_dialog = edit_dialog.delRightMost('<div class=\"form-row\">');\n                edit_dialog += '<div class=\"form-row\" style=\"margin-right:10px;\">' + r;\n            }\n            edit_dialog += item + \"\\n\";\n            if (index < msg.edit_dialog.length - 1) {\n                if (bInRGroup) {\n                    edit_dialog += \" \".repeat(4);\n                }\n                edit_dialog += indent + indent + tabIndent + \"</div><!--form-row-->\\n\";\n                edit_dialog += indent + indent + tabIndent + '<div class=\"form-row\">' + \"\\n\";\n                cTotal = 0;\n                nItems = 0;\n            }\n        } else {\n            edit_dialog += item + \"\\n\";\n            nItems++;\n        }\n    }\n});\nif (initTab) { \n    edit_dialog += \" \".repeat(16) + \"</div><!--form-row-->\\n\";\n    edit_dialog += \" \".repeat(12) + \"</div><!--func-tab-tab#-->\\n\";\n    edit_dialog += \" \".repeat(8) + \"</div><!--func-tabs-content-->\";\n\n    // Activate the first tab if present\n    let code = \" \".repeat(12) + 'tabs.activateTab(\"func-tab-' + firstTabName + '\");' + \"\\n\";\n    msg._oneditprepare.push(code);\n}else{\n    edit_dialog += \" \".repeat(8) + \"</div><!--form-row-->\";\n}\nmsg.edit_dialog = edit_dialog;\n\nlet defaults = '';\nmsg.defaults.forEach(function(item, index) {\n    defaults += \"            \" + item;\n    if (index < msg.defaults.length -1) {\n        defaults += \",\\n\";\n    }else{\n        defaults += \"\\n\";\n    }\n});\nmsg.defaults = defaults;\nmsg.oneditprepare = \"\\n\" + msg._oneditprepare.join(\"\\n\");\nmsg.oneditresize = \"\\n\" + msg._oneditresize.join(\"\\n\");\nmsg.oneditsave = \"\\n\" + msg._oneditsave.join(\"\\n\");\nmsg.oneditcancel = \"\\n\" + msg._oneditcancel.join(\"\\n\");\nmsg.defaults = msg.defaults.slice(0, -1);\nvar othercode = \"\";\nfor (var key in msg._othercode) {\n    var value = msg._othercode[key];\n    othercode += value;\n}\nmsg.othercode = \"\\n\" + othercode;\nmsg.runtimecode = \"\\n\" + msg.runtimecode.replace(/^/gm, \"    \".repeat(4));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
+        "x": 220,
         "y": 100,
         "wires": [
             [
@@ -3952,14 +3940,14 @@
         "id": "729874432b3551f1",
         "type": "function",
         "z": "85e13a6e48f6a1c3",
-        "name": "function 1",
+        "name": "start_node",
         "func": "msg.node_name = env.get('node_name');\nmsg.node_version = env.get('node_version');\nmsg.node_description = env.get('node_description');\nmsg.node_folder = env.get('HOME') + '/.node-red/node_modules/node-red-' + msg.node_name + '/';\nlet k = env.get('keywords');\nk = '\"' + k.replaceAll(' ', '').replaceAll(',', '\",\"') + '\"';\nmsg.node_category = env.get('node_category');\nmsg.node_palettelabel = env.get('node_palettelabel');\nmsg.node_icon = env.get('node_icon');\nmsg.node_color = env.get('node_color');\nmsg.keywords = k;\nmsg.author_name = env.get('author_name');\nmsg.author_email = env.get('author_email');\nmsg.github_handle = env.get('github_handle');\nmsg.package_json = msg.node_folder + 'package.json';\nmsg.gitignore = msg.node_folder + '.gitignore';\nmsg.license = msg.node_folder + 'LICENSE';\nmsg.readme = msg.node_folder + 'README.md';\nmsg.nodename_js = msg.node_folder + msg.node_name + '/' + msg.node_name + '.js';\nmsg.nodename_html = msg.node_folder + msg.node_name + '/' + msg.node_name + '.html';\nmsg.edit_dialog = [];\nmsg._oneditprepare = [];\nmsg._oneditresize = [];\nmsg._oneditsave = [];\nmsg._oneditcancel = [];\nmsg._othercode = {};\nmsg.defaults = [];\nmsg.row_width = env.get('row_width');\nmsg.numinputs = env.get('numinputs');\nmsg.numoutputs = env.get('numoutputs');\nmsg.inc_node_name = env.get('inc_node_name');\nmsg.nodemakerhtml = '';\nmsg.nodemakerjs = '';\nmsg.runtimecode = '';\nif (msg.inc_node_name) {\n    msg.inc_node_name = '    <div class=\"form-row\">' +\"\\n\";\n    msg.inc_node_name += '        <label for=\"node-input-name\"><i class=\"icon-tag\"></i> Name</label>' + \"\\n\";\n    msg.inc_node_name += '        <input type=\"text\" id=\"node-input-name\" placeholder=\"Name\">' + \"\\n\";\n    msg.inc_node_name += \"    </div>\";\n}else{\n    msg.inc_node_name = '';\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 160,
+        "x": 150,
         "y": 40,
         "wires": [
             [
@@ -4511,73 +4499,13 @@
         "wires": []
     },
     {
-        "id": "4fc797c031edc224",
-        "type": "example",
-        "z": "fa039591fddc0902",
-        "name": "",
-        "test": "",
-        "testType": "str",
-        "x": 780,
-        "y": 520,
-        "wires": [
-            [
-                "13ae6a3488364edd"
-            ]
-        ]
-    },
-    {
-        "id": "723986549b69e89b",
-        "type": "inject",
-        "z": "fa039591fddc0902",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 640,
-        "y": 520,
-        "wires": [
-            [
-                "4fc797c031edc224"
-            ]
-        ]
-    },
-    {
-        "id": "13ae6a3488364edd",
-        "type": "debug",
-        "z": "fa039591fddc0902",
-        "name": "debug 51",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 940,
-        "y": 520,
-        "wires": []
-    },
-    {
         "id": "11b1fb0b3f0c08b9",
         "type": "template",
         "z": "fa039591fddc0902",
         "name": "nodemakerhtml",
         "field": "nodemakerhtml",
         "fieldType": "msg",
-        "format": "handlebars",
+        "format": "html",
         "syntax": "mustache",
         "template": "<style>\n    {{{customcss}}}\n</style>\n<script type=\"text/html\" data-template-name=\"{{node_name}}\">\n    {{{inc_node_name}}}\n    <div id=\"node-props\" style=\"width: {{row_width}}px;\">\n        {{{edit_dialog}}}\n    </div><!--node-props-->\n</script>\n\n<script type=\"text/html\" data-help-name=\"{{node_name}}\">\n    {{{helpdetails}}}\n</script>\n\n<script type=\"text/javascript\">\n    RED.nodes.registerType('{{node_name}}', {\n        category: '{{node_category}}',\n        {{#node_palettelabel.length}}\n        paletteLabel: '{{node_palettelabel}}',\n        {{/node_palettelabel.length}}        \n        color: '{{node_color}}',\n        defaults: {\n            name: {value:\"\"},\n            {{{defaults}}}\n        },\n        inputs: {{numinputs}},\n        outputs: {{numoutputs}},\n        icon: \"font-awesome/fa-{{{node_icon}}}\",\n        label: function() {\n            return this.name || \"{{node_name}}\";\n        },\n        labelStyle: function() {\n            return this.name ? \"node_label_italic\" : \"\";\n        },\n        oneditprepare: function() {\n            {{{oneditprepare}}}\n        },\n        oneditresize: function() {\n            {{{oneditresize}}}        \n        },\n        oneditsave: function() {\n            {{{oneditsave}}}\n        },\n        oneditcancel: function() {\n            {{{oneditcancel}}}\n        }\n    });\n    {{{othercode}}}\n</script>\n",
         "output": "str",
@@ -4639,16 +4567,6 @@
         "wires": [
             []
         ]
-    },
-    {
-        "id": "b73a92a09ff11387",
-        "type": "comment",
-        "z": "fa039591fddc0902",
-        "name": "Test created example node. Refresh browser after above flow.",
-        "info": "",
-        "x": 780,
-        "y": 480,
-        "wires": []
     },
     {
         "id": "a3b93925ea64a640",

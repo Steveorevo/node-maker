@@ -1,0 +1,397 @@
+[
+    {
+        "id": "ebd81684ada1c31c",
+        "property": "template",
+        "file": "use_templts_/re_size_fix.js"
+    },
+    {
+        "id": "6bb34952a24fe530",
+        "property": "func",
+        "file": "use_templts_/compose_code.js"
+    },
+    {
+        "id": "62b4d0382560364d",
+        "property": "func",
+        "file": "spinner/spinner_props.js"
+    },
+    {
+        "id": "07a16db04c64dc2c",
+        "property": "template",
+        "file": "spinner/edit_dialog.html"
+    },
+    {
+        "id": "85eb05fc963311be",
+        "property": "func",
+        "file": "spinner/edit_dialog.js"
+    },
+    {
+        "id": "5156716df3b6fd1d",
+        "property": "template",
+        "file": "spinner/oneditprepare_template"
+    },
+    {
+        "id": "79f6b4d4f4df2a1a",
+        "property": "func",
+        "file": "spinner/oneditprepare.js"
+    },
+    {
+        "id": "b0d3a03a3d6ca839",
+        "property": "func",
+        "file": "confignode/configurenode_props.js"
+    },
+    {
+        "id": "901ff16324846881",
+        "property": "template",
+        "file": "confignode/edit_dialog.html"
+    },
+    {
+        "id": "084f5d08fdf5e058",
+        "property": "func",
+        "file": "confignode/edit_dialog.js"
+    },
+    {
+        "id": "86ccecca4fabac7f",
+        "property": "func",
+        "file": "end_rgroup/end_group_props.js"
+    },
+    {
+        "id": "569fb952e0619afb",
+        "property": "template",
+        "file": "end_rgroup/oneditprepare_template.js"
+    },
+    {
+        "id": "f73faadc1c4b41c5",
+        "property": "func",
+        "file": "end_rgroup/oneditprepare.js"
+    },
+    {
+        "id": "f7e683ae5d08c682",
+        "property": "func",
+        "file": "end_rgroup/oneditsave.js"
+    },
+    {
+        "id": "c62255b98a430015",
+        "property": "template",
+        "file": "end_rgroup/oneditsave_template.json"
+    },
+    {
+        "id": "c3b7bb6404eb0c25",
+        "property": "func",
+        "file": "start_rgroup/start_rgroup_props.js"
+    },
+    {
+        "id": "593c4461e9fefc86",
+        "property": "template",
+        "file": "start_rgroup/edit_dialog.html"
+    },
+    {
+        "id": "b6607748c85f3e81",
+        "property": "func",
+        "file": "start_rgroup/edit_dialog.js"
+    },
+    {
+        "id": "97041e5e58e0392a",
+        "property": "func",
+        "file": "tab/edit_dialog.js"
+    },
+    {
+        "id": "f3308a3fdb36ac02",
+        "property": "func",
+        "file": "buttongroup/buttongroup_props.js"
+    },
+    {
+        "id": "647aa85626d8ec6c",
+        "property": "func",
+        "file": "buttongroup/edit_dialog.js"
+    },
+    {
+        "id": "804acd8df99594f0",
+        "property": "template",
+        "file": "buttongroup/edit_dialog.html"
+    },
+    {
+        "id": "0db6dff4a160e916",
+        "property": "template",
+        "file": "buttongroup/oneditprepare_template.js"
+    },
+    {
+        "id": "d8c795cf2bf3ed56",
+        "property": "func",
+        "file": "buttongroup/oneditprepare.js"
+    },
+    {
+        "id": "5fd3369e032c68b0",
+        "property": "func",
+        "file": "button/button_props.js"
+    },
+    {
+        "id": "09a5b20f490d7474",
+        "property": "template",
+        "file": "button/edit_dialog.html"
+    },
+    {
+        "id": "41f4b3c1077a06f2",
+        "property": "func",
+        "file": "button/edit_dialog.js"
+    },
+    {
+        "id": "b39ca36c12467718",
+        "property": "func",
+        "file": "editor/editor_props.js"
+    },
+    {
+        "id": "304b11e03551ef93",
+        "property": "template",
+        "file": "editor/edit_dialog.html"
+    },
+    {
+        "id": "dfc2e6d83eaa08f0",
+        "property": "func",
+        "file": "editor/edit_dialog.js"
+    },
+    {
+        "id": "433c2ca4801d1b7f",
+        "property": "template",
+        "file": "editor/oneditprepare_template.js"
+    },
+    {
+        "id": "7a21bd543c1073c8",
+        "property": "func",
+        "file": "editor/oneditprepare.js"
+    },
+    {
+        "id": "312a31b33615964e",
+        "property": "template",
+        "file": "editor/oneditsave_template.js"
+    },
+    {
+        "id": "7ecf6f5b801255fe",
+        "property": "func",
+        "file": "editor/oneditsave.js"
+    },
+    {
+        "id": "35eacbc0f8e14635",
+        "property": "template",
+        "file": "editor/oneditcancel_template.js"
+    },
+    {
+        "id": "decf02259cf4f980",
+        "property": "func",
+        "file": "editor/function_20.js"
+    },
+    {
+        "id": "7e05fb4fc292719b",
+        "property": "template",
+        "file": "editor/othercode_template.js"
+    },
+    {
+        "id": "af0afbba9a411b15",
+        "property": "func",
+        "file": "editor/function_5.js"
+    },
+    {
+        "id": "3a8bd58bf294fc23",
+        "property": "func",
+        "file": "textarea/textarea_props.js"
+    },
+    {
+        "id": "accd61ce5b3e8df8",
+        "property": "template",
+        "file": "textarea/edit_dialog.html"
+    },
+    {
+        "id": "56c0f86d94e65e2f",
+        "property": "func",
+        "file": "textarea/edit_dialog.js"
+    },
+    {
+        "id": "4f14c5db823380c0",
+        "property": "func",
+        "file": "option/option_props.js"
+    },
+    {
+        "id": "4dd9f408962124c5",
+        "property": "template",
+        "file": "option/edit_dialog.html"
+    },
+    {
+        "id": "77cc34048bcc7da4",
+        "property": "func",
+        "file": "option/edit_dialog.js"
+    },
+    {
+        "id": "8b96d7bb4892c0d6",
+        "property": "template",
+        "file": "option/oneditprepare_template.js"
+    },
+    {
+        "id": "742418ba92cd639a",
+        "property": "func",
+        "file": "option/oneditprepare.js"
+    },
+    {
+        "id": "9960c6b71ddcbcdc",
+        "property": "template",
+        "file": "option/oneditsave_template.js"
+    },
+    {
+        "id": "f3c884a018b98b9c",
+        "property": "func",
+        "file": "option/oneditsave.js"
+    },
+    {
+        "id": "b08129ad78aa131f",
+        "property": "func",
+        "file": "checkbox/checkbox_props.js"
+    },
+    {
+        "id": "005ee05cba1991fe",
+        "property": "template",
+        "file": "checkbox/edit_dialog.html"
+    },
+    {
+        "id": "d46ba26faedba5a9",
+        "property": "func",
+        "file": "checkbox/edit_dialog.js"
+    },
+    {
+        "id": "a898132ca0292c19",
+        "property": "func",
+        "file": "selectbox/selectbox_props.js"
+    },
+    {
+        "id": "d0c143eac43904cd",
+        "property": "template",
+        "file": "selectbox/edit_dialog.html"
+    },
+    {
+        "id": "1c0a4ee1081ab0ae",
+        "property": "func",
+        "file": "selectbox/edit_dialog.js"
+    },
+    {
+        "id": "436c6476640d73e2",
+        "property": "template",
+        "file": "selectbox/oneditprepare_template.js"
+    },
+    {
+        "id": "3d97bfe487ea399d",
+        "property": "func",
+        "file": "selectbox/oneditprepare.js"
+    },
+    {
+        "id": "fe135416b9ef2efa",
+        "property": "template",
+        "file": "label/edit_dialog.html"
+    },
+    {
+        "id": "b15245fe8570aaf7",
+        "property": "func",
+        "file": "label/label_props.js"
+    },
+    {
+        "id": "84054fdfc2c499b0",
+        "property": "func",
+        "file": "label/edit_dialog.js"
+    },
+    {
+        "id": "2f6d8f31aa468d9f",
+        "property": "template",
+        "file": "field_/edit_dialog.html"
+    },
+    {
+        "id": "73a3b0f6af6b0aeb",
+        "property": "func",
+        "file": "field_/field_props.js"
+    },
+    {
+        "id": "a0b8b4c7a26b07dd",
+        "property": "func",
+        "file": "field_/edit_dialog.js"
+    },
+    {
+        "id": "3c2eac4c542cd18e",
+        "property": "template",
+        "file": "field_/oneditprepare_template.js"
+    },
+    {
+        "id": "67eed6e284e28123",
+        "property": "func",
+        "file": "field_/oneditprepare.js"
+    },
+    {
+        "id": "eda19645927d3dda",
+        "property": "func",
+        "file": "field_/field_group.js"
+    },
+    {
+        "id": "0eb2dcf71e3bf43f",
+        "property": "template",
+        "file": "finish_node/nodemakerhtml"
+    },
+    {
+        "id": "43b6b50718414f9f",
+        "property": "template",
+        "file": "finish_node/nodemakerjs"
+    },
+    {
+        "id": "3d44470abb3be3af",
+        "property": "func",
+        "file": "finish_node/compose_code.js"
+    },
+    {
+        "id": "37f124c38d4954c7",
+        "property": "template",
+        "file": "finish_node/re_size_fix.js"
+    },
+    {
+        "id": "729874432b3551f1",
+        "property": "func",
+        "file": "start_node/start_node.js"
+    },
+    {
+        "id": "1a9cbb92df9f9927",
+        "property": "template",
+        "file": "start_node/package_json"
+    },
+    {
+        "id": "4dc54964fd7d8d7b",
+        "property": "template",
+        "file": "start_node/_gitignore"
+    },
+    {
+        "id": "a79e8a6b35ceac10",
+        "property": "template",
+        "file": "start_node/MIT_License"
+    },
+    {
+        "id": "4eaf4f130e10c617",
+        "property": "template",
+        "file": "start_node/README_md"
+    },
+    {
+        "id": "1d506b65823c19c3",
+        "property": "template",
+        "file": "start_node/customcss.css"
+    },
+    {
+        "id": "11b1fb0b3f0c08b9",
+        "property": "template",
+        "file": "node_maker/nodemakerhtml.html"
+    },
+    {
+        "id": "75ad4d90b1a97b9c",
+        "property": "template",
+        "file": "node_maker/nodemakerjs"
+    },
+    {
+        "id": "f90dfc43615618b4",
+        "property": "template",
+        "file": "node_maker/runtimecode.js"
+    },
+    {
+        "id": "eb56b1f2bff50aa7",
+        "property": "template",
+        "file": "node_maker/runtimecode2.js"
+    }
+]

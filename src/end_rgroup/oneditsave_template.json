@@ -1,0 +1,19 @@
+            // Save editableList for {{rgroup_name}}
+            {{rgroup_name}}Items = $("#node-input-{{rgroup_name}}-container").editableList('items');
+            let {{rgroup_name}} = [];
+            {{rgroup_name}}Items.each(function(){
+                let entry = {};
+                $(this).find('input[id]').each(function() {
+                    let id = $(this).attr('id').substring(11 + "{{rgroup_name}}".length);
+                    id = id.slice(0, -2);
+                    let v = false;
+                    if ($(this).attr('type') == 'checkbox') {
+                        v = $(this).prop('checked');
+                    }else{
+                        v = $(this).val();
+                    }
+                    entry[id] = v;
+                });
+                {{rgroup_name}}.push(entry);
+            });
+            this.{{rgroup_name}} = {{rgroup_name}};

@@ -1,0 +1,12 @@
+{
+    "name": "node-maker",
+    "description": "A set of subflows that can be used to quickly create a new Node-RED node, its property panels, and initial behavior.",
+    "version": "1.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "node-maker.json",
+            "credentialsFile": "node-maker_cred.json"
+        }
+    }
+}

@@ -1,0 +1,2 @@
+            // Prepare spinner {{field_name}}
+            $("#node-input-{{field_name}}").spinner({ min: {{field_min}}, max: {{field_max}} });
