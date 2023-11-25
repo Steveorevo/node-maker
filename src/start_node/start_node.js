@@ -1,4 +1,9 @@
 msg.node_name = env.get('node_name');
+/* crash and burn if name not defined */
+if (!msg.node_name || msg.node_name=="") {
+    node.error(("node name not given"), msg);
+    return
+}
 msg.node_version = env.get('node_version');
 msg.node_description = env.get('node_description');
 msg.node_folder = env.get('HOME') + '/.node-red/node_modules/node-red-' + msg.node_name + '/';
