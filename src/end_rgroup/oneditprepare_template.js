@@ -4,17 +4,17 @@
                     let repeatingFields = {{{rgroup_details}}};
                     let html = $('#rgroup-{{rgroup_name}}-template').html();
                     repeatingFields.forEach(function(rf) {
-                        let fniType = "{{rgroup_name}}" + rf.field_name + "Type" + String(i).padStart(2, '0');
+                        let fniType = "{{rgroup_name}}" + rf.field_name + "Type" + String(i).padStart(3, '0');
                         html = html.replaceAll('id="node-input-' + rf.field_name + "Type" + '"', 'id="node-input-' + fniType + '"');
-                        let fni = "{{rgroup_name}}" + rf.field_name + String(i).padStart(2, '0');
+                        let fni = "{{rgroup_name}}" + rf.field_name + String(i).padStart(3, '0');
                         html = html.replaceAll('id="node-input-' + rf.field_name + '"', 'id="node-input-' + fni + '"');
                         html = html.replaceAll('for="node-input-' + rf.field_name + '"', 'for="node-input-' + fni + '"');
                         container.html(html);
                     });
                     repeatingFields.forEach(function (rf) {
-                        let fni = "{{rgroup_name}}" + rf.field_name + String(i).padStart(2, '0');
+                        let fni = "{{rgroup_name}}" + rf.field_name + String(i).padStart(3, '0');
                         if (rf.field_types != '') {
-                            let fniType = "{{rgroup_name}}" + rf.field_name + "Type" + String(i).padStart(2, '0');
+                            let fniType = "{{rgroup_name}}" + rf.field_name + "Type" + String(i).padStart(3, '0');
                             $("#node-input-" + fni).typedInput({
                                 type: rf.field_default_type,
                                 types: rf.field_types,
