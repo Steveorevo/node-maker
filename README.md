@@ -27,7 +27,7 @@ Now with Node Maker you can create rich property panel combinations without even
 
 <!---------------------------------------------------------------------------->
 
-[KBD]: https://www.paypal.com/pools/c/8P4HVTZiH2
+[KBD]: https://virtuosoft.com/donate
 
 ## Requirements
 * You should be familiar with [Creating Nodes using Node-RED's documentation.](https://nodered.org/docs/creating-nodes/)
@@ -176,12 +176,12 @@ module.exports = function(RED) {
 ```
 
 
-#### Support the creator
-You can help Steveorevo's open source development endeavors by donating any amount. Your donation, no matter how large or small helps pay for his time and resources to create MIT and GPL licensed projects that you and the world can benefit from. Click the link below to donate today :)
+## Support the creator
+You can help this author's open source development endeavors by donating any amount to Stephen J. Carnam @ Virtuosoft. Your donation, no matter how large or small helps pay for essential time and resources to create MIT, GPL, and AGPL licensed projects that you and the world can benefit from. Click the link below to donate today :)
 <div>
          
 
-[<kbd> <br> Donate to this Project <br> </kbd>][KBD]
+[<kbd> <br> Donate to this Project <br> </kbd>][KBD]
 
 
 </div>
@@ -189,6 +189,6 @@ You can help Steveorevo's open source development endeavors by donating any amou
 
 <!---------------------------------------------------------------------------->
 
-[KBD]: https://steveorevo.com/donate
+[KBD]: https://virtuosoft.com/donate
 
-https://steveorevo.com/donate
+https://virtuosoft.com/donate
