@@ -6,7 +6,7 @@ if (!msg.node_name || msg.node_name=="") {
 }
 msg.node_version = env.get('node_version');
 msg.node_description = env.get('node_description');
-msg.node_folder = env.get('HOME') + '/.node-red/node_modules/node-red-' + msg.node_name + '/';
+msg.node_folder = env.get('PWD') + '/node_modules/node-red-' + msg.node_name + '/';
 let k = env.get('keywords');
 k = '"' + k.replaceAll(' ', '').replaceAll(',', '","') + '"';
 msg.node_category = env.get('node_category');
