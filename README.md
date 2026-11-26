@@ -147,10 +147,13 @@ Where by example in `node-red-example` is the name of your node as specified in 
 #### Auto-restarting Node-RED
 On compatible Linux operating systems, the finish node will write all the necessary files and then restart the Node-RED server. This behavior allows you to easily design your Node's UI and edit its code from within the Node-RED editor; simply invoke the inject node to activate the start node followed by refreshing your browser's webpage. You may need to wait a couple of seconds for services to restart before refreshing your browser and seeing your generated node appear in the left hand palette. 
 
-To accomplish this, Node Maker will need to kill the current Node-RED running instance; via a PID file in your temp folder (i.e. /tmp/node-red.pid) and then restart Node-RED and record the new PID to the temp folder. ***This requires that you initially start Node-RED with the PID recording command***.
+The finish node picks the restart method from how your Node-RED is supervised; see the restart modes below.
 
-#### To Start the Node-RED Instance and Allow Auto-restarting of Node-RED
-You will need to initially start Node-RED with the following command (it is the same command that the finish node executes to restart Node-RED after generating your node files):
+#### Restart modes
+When it finishes writing your node's files, the finish node restarts Node-RED using whichever method matches how the instance is supervised.
+
+* **Supervised (PM2, HestiaCP hcpp-nodeapp, systemd, etc.)** - if a `.restart` file or folder exists in the Node-RED user directory, the finish node only touches `.restart/restart` and lets the supervisor do the restarting. No process is killed and no second instance is spawned. Under PM2 this pairs with the app's `watch` setting pointing at `.restart` (hcpp-nodeapp does this for you).
+* **Manual / standalone** - with no `.restart` present it falls back to the PID file method: kill the process recorded in `/tmp/node-red.pid`, then restart Node-RED with `nohup nice node-red` and record the new PID. ***This requires that you initially start Node-RED with the PID recording command***:
 
 ```
 kill -9 `cat /tmp/node-red.pid`; nohup nice node-red > /dev/null 2>&1 & echo $! > /tmp/node-red.pid

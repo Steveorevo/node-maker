@@ -1,7 +1,7 @@
 {
     "name": "node-red-{{node_name}}",
     "version": "{{node_version}}",
-    "description": "A node that merges msg objects until all defined properties are present / conditions met before passing the combined msg along.",
+    "description": "example description",
     "author": "{{author_name}} <{{author_email}}>",
     "license": "MIT",
     "keywords": [{{{keywords}}}],
