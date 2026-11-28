@@ -327,12 +327,12 @@
     {
         "id": "0eb2dcf71e3bf43f",
         "property": "template",
-        "file": "finish_node/nodemakerhtml"
+        "file": "finish_node/nodemaker.html"
     },
     {
         "id": "43b6b50718414f9f",
         "property": "template",
-        "file": "finish_node/nodemakerjs"
+        "file": "finish_node/nodemaker.js"
     },
     {
         "id": "3d44470abb3be3af",
@@ -377,12 +377,12 @@
     {
         "id": "11b1fb0b3f0c08b9",
         "property": "template",
-        "file": "node_maker/nodemakerhtml.html"
+        "file": "node_maker/nodemaker.html"
     },
     {
         "id": "75ad4d90b1a97b9c",
         "property": "template",
-        "file": "node_maker/nodemakerjs"
+        "file": "node_maker/nodemaker.js"
     },
     {
         "id": "f90dfc43615618b4",
